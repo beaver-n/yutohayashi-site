@@ -531,6 +531,10 @@ function panelGame(p){
 /* ---------- ボタン ---------- */
 var DOCK_NAMES={works:'作品を見せて',about:'どんな人？',skills:'何ができる？',future:'これから何をつくる？',contact:'お問い合わせ',game:'B-Play'};
 function panelDock(p){
+  /* 前に保存した内容に「B-Play」ボタンがなければ足す(サイト側と同じ) */
+  data.dock=data.dock||[];
+  if(!data.dock.some(function(d){return d.q==='game'}))data.dock.push({q:'game',ja:'B-Play',en:'B-Play',show:true});
+  data.dock.forEach(function(d){if(d.q==='game'){if(d.ja==='ゲーム')d.ja='B-Play';if(d.en==='Games')d.en='B-Play'}});
   p.appendChild(h('h2',{text:'下のボタン'}));
   p.appendChild(h('p',{class:'lead',text:'入力欄の上に並ぶボタンです。順番、出す・出さない、ボタンの文字を変えられます。「作品を見せて」は、最初は作品がもう見えているので、会話が始まってから出ます。'}));
   p.appendChild(sortable(data.dock,function(d,i,li,acts){
