@@ -363,40 +363,57 @@ figure.photo.wide img{object-fit:contain}
 .q-park figcaption{text-align:center;font-size:.9rem;color:var(--muted);text-wrap:balance}
 @media (prefers-reduced-motion:reduce){.pk img{opacity:1;transform:none;filter:none}.pk.go img{animation:none}.pk-cap{transition:none}}
 
-/* ===== ゲームのホーム画面 ===== */
-.gh{position:fixed;inset:0;z-index:990;background:radial-gradient(120% 80% at 50% 0%,#1d2457 0%,#0b1024 60%);color:#f4efe2;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  --ta:#e8743b;--tb:#3b7de8;--dim:#a9a7c4;--gold:#ffd27a;opacity:0;transition:opacity .35s ease}
+/* ===== B-Play(ゲームのホーム画面) ===== */
+.gh{position:fixed;inset:0;z-index:990;background:#eef0f3;color:#16181d;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  --bp:#0399b8;--dim:#646a75;--line:#d9dde3;opacity:0;transition:opacity .35s ease;font-feature-settings:"palt"}
 .gh.open{opacity:1}
-.gh-in{max-width:620px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 40px);display:grid;gap:22px}
-.gh-top{display:flex;align-items:center;gap:10px}
-.gh-top .lb{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.22em;color:var(--gold);margin-right:auto}
-.gh-x{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.3rem;line-height:1;display:grid;place-items:center}
-.gh-my{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:5px 12px;font-size:.82rem;background:rgba(255,255,255,.08)}
-.gh-my i{width:10px;height:10px;border-radius:50%;display:block}
-.gh h2{margin:0;font-size:clamp(1.4rem,5vw,1.9rem);line-height:1.35;text-wrap:balance}
+.gh-in{min-height:100%;display:flex;flex-direction:column}
+.gh-hero{position:relative;background:radial-gradient(70% 90% at 50% 55%,#0d3b47 0%,#071419 55%,#04090b 100%);min-height:clamp(260px,44vh,420px);display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 70px) 20px 36px;overflow:hidden}
+.gh-hero img{width:min(86%,470px);height:auto;filter:drop-shadow(0 10px 30px rgba(0,0,0,.45));animation:ghLogo .9s cubic-bezier(.22,.61,.36,1) both}
+@keyframes ghLogo{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.gh-x,.gh-my{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);height:48px;border-radius:999px;background:#fff;color:#16181d;box-shadow:0 4px 14px rgba(0,0,0,.25);display:inline-flex;align-items:center;justify-content:center;border:0}
+.gh-x{left:14px;width:48px;font-size:1.5rem;line-height:1}
+.gh-my{right:14px;padding:0 16px 0 12px;gap:8px;font-size:.84rem;font-weight:700}
+.gh-my i{width:12px;height:12px;border-radius:50%;display:block}
+.gh-body{flex:1;background:#fff;width:100%}
+.gh-wrap{max-width:640px;margin:0 auto;padding:22px 18px calc(env(safe-area-inset-bottom,0px) + 40px);display:grid;gap:22px}
+.gh-tab{border-bottom:1px solid var(--line);display:flex}
+.gh-tab b{font-size:1.15rem;padding:6px 2px 12px;border-bottom:4px solid var(--bp);margin-bottom:-1px;letter-spacing:.02em}
+.gh h2{margin:0;font-size:clamp(1.3rem,5vw,1.7rem);line-height:1.4;text-wrap:balance}
 .gh p{margin:0;color:var(--dim);font-size:.92rem;line-height:1.7}
-.gh-board{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;display:grid;gap:12px}
+.gh-board{border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:grid;gap:12px}
 .gh-vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px}
 .gh-vs .t{display:grid;gap:2px}
 .gh-vs .t:last-child{text-align:right}
-.gh-vs .t span{font-size:.8rem;color:var(--dim)}
-.gh-vs .t b{font-size:clamp(1.6rem,7vw,2.4rem);font-family:var(--f-mono);line-height:1.1}
+.gh-vs .t span{font-size:.8rem;color:var(--dim);font-weight:700}
+.gh-vs .t b{font-size:clamp(1.6rem,7vw,2.3rem);font-family:var(--f-mono);line-height:1.1}
 .gh-vs .v{font-family:var(--f-mono);color:var(--dim);font-size:.8rem;padding-bottom:6px}
-.gh-bar{height:10px;border-radius:5px;overflow:hidden;display:flex;background:rgba(255,255,255,.1)}
+.gh-bar{height:10px;border-radius:5px;overflow:hidden;display:flex;background:#e6e9ee}
 .gh-bar i{display:block;height:100%;transition:width .8s cubic-bezier(.22,.61,.36,1)}
-.gh-sec{display:grid;gap:10px}
-.gh-sec > h3{margin:0;font-family:var(--f-mono);font-size:.74rem;letter-spacing:.18em;color:var(--gold);font-weight:400}
-.gh-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;display:grid;gap:8px}
-.gh-card.ltd{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,210,122,.25) inset}
-.gh-card h4{margin:0;font-size:1.08rem}
-.gh-card .until{font-size:.76rem;color:var(--gold)}
-.gh-card .mini{display:flex;gap:12px;font-family:var(--f-mono);font-size:.8rem;color:var(--dim)}
-.gh-card .mini b{color:#fff}
-.gh-btn{justify-self:start;border:0;border-radius:999px;padding:9px 20px;font-weight:700;background:var(--gold);color:#1a1405}
-.gh-btn.sub{background:rgba(255,255,255,.12);color:#fff}
-.gh-empty{color:var(--dim);font-size:.88rem;border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:14px;text-align:center}
+.gh-sec{display:grid;gap:14px}
+.gh-sec > h3{margin:0;font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.gh-sec > h3::before{content:"";width:4px;height:1em;border-radius:2px;background:var(--bp)}
+.gh-card{border:1.5px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.gh-ban{aspect-ratio:2.3/1;display:grid;place-items:center;padding:14px 22px;background-color:var(--gb,var(--bp));background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 14px,transparent 14px 28px)}
+.gh-ban img{max-width:88%;max-height:100%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.gh-ban span{color:#fff;font-weight:800;font-size:clamp(1.3rem,6vw,1.9rem);text-align:center;line-height:1.25;text-shadow:0 3px 0 rgba(0,0,0,.18);text-wrap:balance}
+.gh-info{padding:14px 18px 16px;display:grid;gap:6px}
+.gh-tag{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:#3a3f48}
+.gh-tag i{width:26px;height:26px;border-radius:50%;background:var(--bp);display:grid;place-items:center;flex:none}
+.gh-tag i::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.gh-card.ltd .gh-tag i{background:#e2452f}
+.gh-card h4{margin:2px 0 0;font-size:1.2rem;line-height:1.4}
+.gh-card .desc{display:none}
+.gh-card.how .desc{display:block}
+.gh-card .mini{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--f-mono);font-size:.8rem;color:var(--dim)}
+.gh-card .mini b{color:#16181d}
+.gh-acts{display:grid;grid-template-columns:1fr 1fr;border-top:1.5px solid var(--line)}
+.gh-acts button{border:0;background:none;padding:15px 8px;font-weight:800;font-size:1rem;color:var(--bp);transition:background .2s}
+.gh-acts button+button{border-left:1.5px solid var(--line)}
+.gh-acts button:hover{background:#f2f8fa}
+.gh-empty{color:var(--dim);font-size:.88rem;border:1.5px dashed var(--line);border-radius:14px;padding:16px;text-align:center}
 .gh-pick{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.gh-team{border:2px solid var(--c);border-radius:20px;padding:22px 12px;display:grid;gap:8px;place-items:center;color:#fff;background:color-mix(in srgb,var(--c) 18%,transparent);transition:transform .2s}
+.gh-team{border:2px solid var(--c);border-radius:18px;padding:22px 12px;display:grid;gap:8px;place-items:center;color:#16181d;background:color-mix(in srgb,var(--c) 10%,#fff);transition:transform .2s}
 .gh-team:hover{transform:translateY(-3px)}
 .gh-team i{width:44px;height:44px;border-radius:50%;background:var(--c);display:block}
 .gh-team b{font-size:1.05rem}
@@ -1710,49 +1727,66 @@ async function sendScore(gameId,score){
 }
 function teamName(t){return TL(GAME.teams&&GAME.teams[t])}
 function teamColor(t){return (GAME.teams&&GAME.teams[t]&&GAME.teams[t].color)||(t==='a'?'#e8743b':'#3b7de8')}
-function ghDrawPick(){
+function ghShell(){
   ghIn.innerHTML='';
-  var top=el('div','gh-top','<span class="lb">B-PLAY</span>');var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;top.appendChild(x);ghIn.appendChild(top);
-  ghIn.appendChild(el('h2',null,esc(T('どっちのチームに入る？','Which team will you join?'))));
-  ghIn.appendChild(el('p',null,esc(T('ゲームの点数は、チームの点数になります。一度えらぶと、この端末ではずっとそのチームです。','Your game scores go to your team. Once you choose, this device stays on that team for good.'))));
+  var hero=el('div','gh-hero');
+  var lg=new Image();lg.src=GAME.logo||'/img/bplay.webp';lg.alt='B-Play';hero.appendChild(lg);
+  var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;hero.appendChild(x);
+  var me=myTeam();
+  if(me)hero.appendChild(el('span','gh-my','<i style="background:'+esc(teamColor(me))+'"></i>'+esc(teamName(me))));
+  ghIn.appendChild(hero);
+  var body=el('div','gh-body'),w=el('div','gh-wrap');body.appendChild(w);ghIn.appendChild(body);
+  w.appendChild(el('div','gh-tab','<b>B-Play</b>'));
+  return w;
+}
+function ghDrawPick(){
+  var w=ghShell();
+  w.appendChild(el('h2',null,esc(T('どっちのチームに入る？','Which team will you join?'))));
+  w.appendChild(el('p',null,esc(T('ゲームの点数は、チームの点数になります。一度えらぶと、この端末ではずっとそのチームです。','Your game scores go to your team. Once you choose, this device stays on that team for good.'))));
   var pk=el('div','gh-pick');
   ['a','b'].forEach(function(t){
     var b=el('button','gh-team','<i></i><b>'+esc(teamName(t))+'</b><span>'+esc(T('このチームに入る','Join this team'))+'</span>');b.type='button';b.style.setProperty('--c',teamColor(t));
     b.onclick=function(){
       if(!confirm(T(teamName(t)+'に入りますか？\nこのあと、チームは変えられません。','Join '+teamName(t)+'?\nYou can’t change teams later.')))return;
-      setTeam(t);ghDraw();
+      setTeam(t);gh.scrollTop=0;ghDraw();
     };
     pk.appendChild(b);
   });
-  ghIn.appendChild(pk);
+  w.appendChild(pk);
 }
 function ghDraw(){
   if(!myTeam())return ghDrawPick();
-  var me=myTeam(),sc=ghScores||{total:{a:0,b:0},games:{}},ta=(sc.total&&sc.total.a)||0,tb=(sc.total&&sc.total.b)||0;
-  ghIn.innerHTML='';
-  var top=el('div','gh-top','<span class="lb">B-PLAY</span>');
-  var my=el('span','gh-my','<i style="background:'+esc(teamColor(me))+'"></i>'+esc(teamName(me)));top.appendChild(my);
-  var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;top.appendChild(x);ghIn.appendChild(top);
+  var sc=ghScores||{total:{a:0,b:0},games:{}},ta=(sc.total&&sc.total.a)||0,tb=(sc.total&&sc.total.b)||0;
+  var y=gh.scrollTop,w=ghShell();
   /* チームの点数 */
   var bd=el('div','gh-board');
   bd.appendChild(el('div','gh-vs','<div class="t"><span>'+esc(teamName('a'))+'</span><b style="color:'+esc(teamColor('a'))+'">'+ta.toLocaleString()+'</b></div><div class="v">VS</div><div class="t"><span>'+esc(teamName('b'))+'</span><b style="color:'+esc(teamColor('b'))+'">'+tb.toLocaleString()+'</b></div>'));
   var bar=el('div','gh-bar'),pa=(ta+tb)?ta/(ta+tb)*100:50;
   bar.innerHTML='<i style="width:'+pa+'%;background:'+esc(teamColor('a'))+'"></i><i style="width:'+(100-pa)+'%;background:'+esc(teamColor('b'))+'"></i>';
-  bd.appendChild(bar);ghIn.appendChild(bd);
+  bd.appendChild(bar);w.appendChild(bd);
   /* ゲームの一覧 */
   var list=(GAME.games||[]).filter(gameActive);
-  [['limited',T('期間限定','LIMITED TIME')],['permanent',T('いつでも遊べる','ALWAYS OPEN')]].forEach(function(sec){
+  [['limited',T('期間限定','Limited time')],['permanent',T('いつでも遊べる','Always open')]].forEach(function(sec){
     var s=el('section','gh-sec');s.appendChild(el('h3',null,esc(sec[1])));
     var gs=list.filter(function(g){return (g.type==='limited')===(sec[0]==='limited')});
     if(!gs.length)s.appendChild(el('div','gh-empty',esc(sec[0]==='limited'?T('今は、期間限定のゲームはありません。','No limited-time games right now.'):T('今は、遊べるゲームがありません。','No games available right now.'))));
     gs.forEach(function(g){
       var c=el('div','gh-card'+(g.type==='limited'?' ltd':''));
-      if(g.type==='limited'&&g.end){var e=g.end.split('-');c.appendChild(el('span','until',esc(T(Number(e[1])+'月'+Number(e[2])+'日まで','Until '+Number(e[1])+'/'+Number(e[2])))))}
-      c.appendChild(el('h4',null,esc(TL(g.title))));
-      if(TL(g.desc))c.appendChild(el('p',null,esc(TL(g.desc))));
+      var ban=el('div','gh-ban');if(g.bg)ban.style.setProperty("--gb",g.bg);
+      if(g.logo){var im=new Image();im.src=g.logo;im.alt=TL(g.title);im.loading='lazy';ban.appendChild(im)}
+      else ban.appendChild(el('span',null,esc(TL(g.title))));
+      c.appendChild(ban);
+      var inf=el('div','gh-info');
+      var tag=T('いつでも遊べる','Always open');
+      if(g.type==='limited'){tag=T('期間限定','Limited time');if(g.end){var e=g.end.split('-');tag+=T(' ・ '+Number(e[1])+'月'+Number(e[2])+'日まで',' · until '+Number(e[1])+'/'+Number(e[2]))}}
+      inf.appendChild(el('div','gh-tag','<i></i>- '+esc(tag)));
+      inf.appendChild(el('h4',null,esc(TL(g.title))));
+      if(TL(g.desc))inf.appendChild(el('p','desc',esc(TL(g.desc))));
       var gsc=(sc.games&&sc.games[g.id])||{};
-      c.appendChild(el('div','mini','<span>'+esc(teamName('a'))+' <b>'+((gsc.a||0).toLocaleString())+'</b></span><span>'+esc(teamName('b'))+' <b>'+((gsc.b||0).toLocaleString())+'</b></span>'));
-      var b=el('button','gh-btn',esc(T('あそぶ','Play')));b.type='button';
+      inf.appendChild(el('div','mini','<span>'+esc(teamName('a'))+' <b>'+((gsc.a||0).toLocaleString())+'</b></span><span>'+esc(teamName('b'))+' <b>'+((gsc.b||0).toLocaleString())+'</b></span>'));
+      c.appendChild(inf);
+      var acts=el('div','gh-acts');
+      var b=el('button',null,'Play Now');b.type='button';
       b.onclick=function(){
         var eng=GAME_ENGINES[g.engine||g.id];if(!eng)return;
         eng(function(score){
@@ -1760,11 +1794,15 @@ function ghDraw(){
           if(score>0)sendScore(g.id,score);
         });
       };
-      c.appendChild(b);s.appendChild(c);
+      var hw=el('button',null,esc(T('あそびかた','How to play')));hw.type='button';
+      hw.onclick=function(){c.classList.toggle('how')};
+      acts.appendChild(b);acts.appendChild(hw);c.appendChild(acts);
+      s.appendChild(c);
     });
-    ghIn.appendChild(s);
+    w.appendChild(s);
   });
-  ghIn.appendChild(el('p','gh-note',esc(T('チームは、この端末のブラウザに保存されています。','Your team is saved in this device’s browser.'))));
+  w.appendChild(el('p','gh-note',esc(T('チームは、この端末のブラウザに保存されています。','Your team is saved in this device’s browser.'))));
+  gh.scrollTop=y;
 }
 async function openGame(){
   input.blur();

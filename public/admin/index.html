@@ -139,6 +139,8 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .gdet select,.addg select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
 .addg{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 input[type=color]{width:60px;height:36px;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--bg)}
+.gpanel .pv{background:#0b1418}
+.gpanel .pv img{object-fit:contain}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--fg);color:#fff;border-radius:999px;padding:10px 20px;font-size:.88rem;transition:opacity .3s,transform .3s;z-index:100;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .toast.bad{background:var(--bad)}
@@ -446,6 +448,7 @@ var ENGINES=[{id:'parade',name:'迷子のおしらせパレード'}];
 function panelGame(p){
   var G=data.game=data.game||clone(DEF.game||{teams:{a:{},b:{}},games:[]});
   G.teams=G.teams||{};G.teams.a=G.teams.a||{};G.teams.b=G.teams.b||{};G.games=G.games||[];
+  p.classList.add('gpanel');
   p.appendChild(h('h2',{text:'B-Play'}));
   p.appendChild(h('p',{class:'lead',text:'入力欄に「play」と打つか、下の「B-Play」ボタンで開くゲームです。見る人は最初に2つのチームのどちらかをえらび、ゲームの点数がそのチームに入ります。'}));
 
@@ -477,6 +480,9 @@ function panelGame(p){
   }
   fetch('/admin/api/game',{credentials:'same-origin',cache:'no-store'}).then(function(r){return r.json()}).then(drawScores).catch(function(){scBox.textContent='点数を読みこめませんでした'});
 
+  /* B-Playのロゴ */
+  p.appendChild(h('div',{class:'card'},[h('h3',{text:'B-Playのロゴ'}),imageField('ホーム画面の一番上に出るロゴ',G.logo||'/img/bplay.webp',function(v){G.logo=v},{hint:'背景がすけている(透明な)PNGがおすすめです。「外す」と、最初のロゴにもどります。'})]));
+
   /* チーム */
   var tc=h('div',{class:'card'},[h('h3',{text:'チーム'})]);
   [['a','チーム1'],['b','チーム2']].forEach(function(x){
@@ -500,6 +506,9 @@ function panelGame(p){
     sel.addEventListener('change',function(){g.type=sel.value;markDirty();rerender()});
     det.appendChild(h('label',{class:'field'},[h('span',{text:'種類'}),sel]));
     if(g.type==='limited')det.appendChild(h('div',{class:'two'},[input('始まる日',g.start,function(v){g.start=v},{type:'date'}),input('終わる日',g.end,function(v){g.end=v},{type:'date'})]));
+    det.appendChild(imageField('ゲームのロゴ',g.logo,function(v){g.logo=v},{hint:'カードの上の部分に出ます。なしのときは、ゲームの名前が文字で出ます。背景がすけているPNGがおすすめです。'}));
+    var bgc=h('input',{type:'color',value:g.bg||'#0399b8'});bgc.addEventListener('input',function(){g.bg=bgc.value;markDirty()});
+    det.appendChild(h('label',{class:'field'},[h('span',{text:'ロゴのうしろの色'}),bgc]));
     det.appendChild(h('div',{class:'two'},[input('名前(日本語)',g.title.ja,function(v){g.title.ja=v}),input('名前(英語)',g.title.en,function(v){g.title.en=v})]));
     det.appendChild(input('説明(日本語)',g.desc.ja,function(v){g.desc.ja=v},{multi:true,rows:2}));
     det.appendChild(input('説明(英語)',g.desc.en,function(v){g.desc.en=v},{multi:true,rows:2}));
