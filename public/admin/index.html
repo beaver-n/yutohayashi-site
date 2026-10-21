@@ -123,6 +123,22 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .frame img{object-fit:contain;display:block;max-width:100%;max-height:100%}
 .frame.sp img{height:auto}
 @media (max-width:640px){.sizes{grid-template-columns:1fr}}
+.scores{display:grid;gap:10px}
+.sc-tot{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sc-team{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:6px}
+.sc-team span{font-size:.8rem;color:var(--muted)}
+.sc-team b{font-size:1.6rem;font-family:var(--f-mono)}
+.sc-adj{display:flex;gap:6px}
+.sc-adj input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+.sc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--line);padding-top:8px;font-size:.88rem}
+.sc-row .mono{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);margin-right:auto}
+.scores > .btn{justify-self:start}
+.gdet{margin-top:6px}
+.gdet summary{cursor:pointer;font-size:.82rem;color:var(--muted)}
+.gdet[open]{padding-bottom:4px}
+.gdet select,.addg select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.addg{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+input[type=color]{width:60px;height:36px;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--bg)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--fg);color:#fff;border-radius:999px;padding:10px 20px;font-size:.88rem;transition:opacity .3s,transform .3s;z-index:100;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .toast.bad{background:var(--bad)}
@@ -261,7 +277,7 @@ function sortable(arr,render,opt){
 }
 
 /* ---------- タブ ---------- */
-var TABS=[['works','作品'],['future','これから'],['dock','ボタン'],['intro','オープニング'],['quick','短縮版'],['answers','質問の答え'],['profile','プロフィール']];
+var TABS=[['works','作品'],['future','これから'],['game','ゲーム'],['dock','ボタン'],['intro','オープニング'],['quick','短縮版'],['answers','質問の答え'],['profile','プロフィール']];
 function drawTabs(){
   var nav=document.getElementById('tabs');nav.innerHTML='';
   TABS.forEach(function(t){nav.appendChild(h('button',{type:'button',role:'tab','aria-selected':String(tab===t[0]),text:t[1],onclick:function(){tab=t[0];drawTabs();rerender();window.scrollTo(0,0)}}))});
@@ -269,7 +285,7 @@ function drawTabs(){
 function rerender(){
   var y=window.scrollY;main.innerHTML='';
   var p=h('section',{class:'panel'});main.appendChild(p);
-  ({works:panelWorks,future:panelFuture,dock:panelDock,intro:panelIntro,quick:panelQuick,answers:panelAnswers,profile:panelProfile})[tab](p);
+  ({works:panelWorks,future:panelFuture,game:panelGame,dock:panelDock,intro:panelIntro,quick:panelQuick,answers:panelAnswers,profile:panelProfile})[tab](p);
   window.scrollTo(0,y);
 }
 
@@ -424,8 +440,85 @@ function zoomPicker(src,s){
   return h('div',{class:'zoom'},[pick,prev,h('div',{class:'zctl'},['小さく',rng,'大きく',lab]),h('p',{class:'hint',style:'grid-column:1/-1;margin:0',text:'左の画像でズームしたい場所をクリック。右が実際の見え方です。'})]);
 }
 
+/* ---------- ゲーム ---------- */
+/* 今あるゲームの中身(プログラム)。新しいゲームができたら、ここに足す */
+var ENGINES=[{id:'parade',name:'迷子のおしらせパレード'}];
+function panelGame(p){
+  var G=data.game=data.game||clone(DEF.game||{teams:{a:{},b:{}},games:[]});
+  G.teams=G.teams||{};G.teams.a=G.teams.a||{};G.teams.b=G.teams.b||{};G.games=G.games||[];
+  p.appendChild(h('h2',{text:'ゲーム'}));
+  p.appendChild(h('p',{class:'lead',text:'入力欄に「play」と打つか、下の「ゲーム」ボタンで開くゲームです。見る人は最初に2つのチームのどちらかをえらび、ゲームの点数がそのチームに入ります。'}));
+
+  /* 点数 */
+  var sc=h('div',{class:'card'},[h('h3',{text:'今の点数'})]),scBox=h('div',{class:'scores',text:'読みこみ中…'});
+  sc.appendChild(scBox);p.appendChild(sc);
+  async function act(body,msg){
+    try{var r=await fetch('/admin/api/game',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),credentials:'same-origin'});
+      if(!r.ok)throw 0;drawScores(await r.json());toast(msg)}catch(e){toast('できませんでした',true)}
+  }
+  function tn(t){return (G.teams[t]&&G.teams[t].ja)||('チーム'+t.toUpperCase())}
+  function drawScores(s){
+    scBox.innerHTML='';
+    var tot=h('div',{class:'sc-tot'});
+    ['a','b'].forEach(function(t){
+      var col=h('div',{class:'sc-team'},[h('span',{text:tn(t)}),h('b',{text:String((s.total&&s.total[t])||0)})]);
+      var d=h('input',{type:'number',value:'',placeholder:'+10 / -10'});
+      col.appendChild(h('div',{class:'sc-adj'},[d,h('button',{class:'btn sm',type:'button',text:'足す',onclick:function(){var v=Math.round(Number(d.value));if(!v)return;act({action:'adjust',team:t,delta:v},'点数を直しました')}})]));
+      tot.appendChild(col);
+    });
+    scBox.appendChild(tot);
+    var ids=Object.keys(s.games||{});
+    ids.forEach(function(id){
+      var g=G.games.find(function(x){return x.id===id}),nm=g&&g.title&&g.title.ja||id,v=s.games[id]||{};
+      scBox.appendChild(h('div',{class:'sc-row'},[h('span',{text:nm}),h('span',{class:'mono',text:tn('a')+' '+(v.a||0)+' ・ '+tn('b')+' '+(v.b||0)}),
+        h('button',{class:'btn sm danger',type:'button',text:'このゲームを0に',onclick:function(){if(confirm('「'+nm+'」の点数を0にしますか？(チームの合計からも引かれます)'))act({action:'reset-game',game:id},'0にしました')}})]));
+    });
+    scBox.appendChild(h('button',{class:'btn sm danger',type:'button',text:'全部の点数を0にする',onclick:function(){if(confirm('両チームの点数を、全部0にしますか？もとにはもどせません。'))act({action:'reset-all'},'全部0にしました')}}));
+  }
+  fetch('/admin/api/game',{credentials:'same-origin',cache:'no-store'}).then(function(r){return r.json()}).then(drawScores).catch(function(){scBox.textContent='点数を読みこめませんでした'});
+
+  /* チーム */
+  var tc=h('div',{class:'card'},[h('h3',{text:'チーム'})]);
+  [['a','チーム1'],['b','チーム2']].forEach(function(x){
+    var t=G.teams[x[0]];
+    var col=h('input',{type:'color',value:t.color||(x[0]==='a'?'#e8743b':'#3b7de8')});col.addEventListener('input',function(){t.color=col.value;markDirty()});
+    tc.appendChild(h('div',{class:'two'},[input(x[1]+'の名前(日本語)',t.ja,function(v){t.ja=v}),input(x[1]+'の名前(英語)',t.en,function(v){t.en=v})]));
+    tc.appendChild(h('label',{class:'field'},[h('span',{text:x[1]+'の色'}),col]));
+  });
+  tc.appendChild(h('p',{class:'hint',text:'名前や色を変えても、どちらのチームに入っている人もそのままです。'}));
+  p.appendChild(tc);
+
+  /* ゲームの一覧 */
+  p.appendChild(h('h3',{text:'ゲームの一覧',style:'margin:24px 0 8px'}));
+  p.appendChild(h('p',{class:'hint',text:'⠿ か ↑↓ で並べかえ。「期間限定」は、始まる日から終わる日まで(その日もふくむ)だけ出ます。',style:'margin-bottom:10px'}));
+  p.appendChild(sortable(G.games,function(g,i,li,acts){
+    var eng=ENGINES.find(function(e){return e.id===(g.engine||g.id)});
+    var m=h('div',{class:'meta'},[h('b',{text:(g.title&&g.title.ja)||'(名前なし)'}),h('span',{text:(g.type==='limited'?'期間限定 '+(g.start||'?')+' 〜 '+(g.end||'?'):'常設')+(eng?'':' ・ ゲームの中身がありません')})]);
+    var det=h('details',{class:'gdet'},[h('summary',{text:'くわしく編集'})]);
+    g.title=g.title||{};g.desc=g.desc||{};
+    var sel=h('select',{},[h('option',{value:'permanent',text:'常設(いつでも)'}),h('option',{value:'limited',text:'期間限定'})]);sel.value=g.type==='limited'?'limited':'permanent';
+    sel.addEventListener('change',function(){g.type=sel.value;markDirty();rerender()});
+    det.appendChild(h('label',{class:'field'},[h('span',{text:'種類'}),sel]));
+    if(g.type==='limited')det.appendChild(h('div',{class:'two'},[input('始まる日',g.start,function(v){g.start=v},{type:'date'}),input('終わる日',g.end,function(v){g.end=v},{type:'date'})]));
+    det.appendChild(h('div',{class:'two'},[input('名前(日本語)',g.title.ja,function(v){g.title.ja=v}),input('名前(英語)',g.title.en,function(v){g.title.en=v})]));
+    det.appendChild(input('説明(日本語)',g.desc.ja,function(v){g.desc.ja=v},{multi:true,rows:2}));
+    det.appendChild(input('説明(英語)',g.desc.en,function(v){g.desc.en=v},{multi:true,rows:2}));
+    det.appendChild(input('1回でもらえる点数の上限',g.max,function(v){g.max=Number(v)||300},{type:'number',hint:'ズルを防ぐため、これより大きい点数は、この数にけずられます。'}));
+    m.appendChild(det);
+    li.appendChild(m);
+    acts.insertBefore(check(' 出す',g.show!==false,function(v){g.show=v;li.classList.toggle('off',!v)}),acts.firstChild);
+    acts.appendChild(h('button',{class:'btn sm danger',type:'button',text:'削除',onclick:function(){if(!confirm('このゲームを一覧から消しますか？(点数は残ります)'))return;G.games.splice(i,1);markDirty();rerender()}}));
+    li.appendChild(acts);
+  },{isOff:function(g){return g.show===false}}));
+  var free=ENGINES.filter(function(e){return !G.games.some(function(g){return (g.engine||g.id)===e.id})});
+  if(free.length){
+    var ss=h('select',{},free.map(function(e){return h('option',{value:e.id,text:e.name})}));
+    p.appendChild(h('div',{class:'addg'},[ss,h('button',{class:'btn',type:'button',text:'＋ ゲームを追加',onclick:function(){var e=ENGINES.find(function(x){return x.id===ss.value});G.games.push({id:e.id,type:'permanent',show:true,start:'',end:'',max:300,title:{ja:e.name,en:''},desc:{ja:'',en:''}});markDirty();rerender()}})]));
+  }else p.appendChild(h('p',{class:'hint',text:'今あるゲームは、全部一覧に入っています。新しいゲームの中身ができると、ここから追加できるようになります。'}));
+}
+
 /* ---------- ボタン ---------- */
-var DOCK_NAMES={works:'作品を見せて',about:'どんな人？',skills:'何ができる？',future:'これから何をつくる？',contact:'お問い合わせ'};
+var DOCK_NAMES={works:'作品を見せて',about:'どんな人？',skills:'何ができる？',future:'これから何をつくる？',contact:'お問い合わせ',game:'ゲーム'};
 function panelDock(p){
   p.appendChild(h('h2',{text:'下のボタン'}));
   p.appendChild(h('p',{class:'lead',text:'入力欄の上に並ぶボタンです。順番、出す・出さない、ボタンの文字を変えられます。「作品を見せて」は、最初は作品がもう見えているので、会話が始まってから出ます。'}));

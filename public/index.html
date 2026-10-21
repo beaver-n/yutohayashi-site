@@ -363,6 +363,47 @@ figure.photo.wide img{object-fit:contain}
 .q-park figcaption{text-align:center;font-size:.9rem;color:var(--muted);text-wrap:balance}
 @media (prefers-reduced-motion:reduce){.pk img{opacity:1;transform:none;filter:none}.pk.go img{animation:none}.pk-cap{transition:none}}
 
+/* ===== ゲームのホーム画面 ===== */
+.gh{position:fixed;inset:0;z-index:990;background:radial-gradient(120% 80% at 50% 0%,#1d2457 0%,#0b1024 60%);color:#f4efe2;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  --ta:#e8743b;--tb:#3b7de8;--dim:#a9a7c4;--gold:#ffd27a;opacity:0;transition:opacity .35s ease}
+.gh.open{opacity:1}
+.gh-in{max-width:620px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 40px);display:grid;gap:22px}
+.gh-top{display:flex;align-items:center;gap:10px}
+.gh-top .lb{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.22em;color:var(--gold);margin-right:auto}
+.gh-x{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.3rem;line-height:1;display:grid;place-items:center}
+.gh-my{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:5px 12px;font-size:.82rem;background:rgba(255,255,255,.08)}
+.gh-my i{width:10px;height:10px;border-radius:50%;display:block}
+.gh h2{margin:0;font-size:clamp(1.4rem,5vw,1.9rem);line-height:1.35;text-wrap:balance}
+.gh p{margin:0;color:var(--dim);font-size:.92rem;line-height:1.7}
+.gh-board{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;display:grid;gap:12px}
+.gh-vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px}
+.gh-vs .t{display:grid;gap:2px}
+.gh-vs .t:last-child{text-align:right}
+.gh-vs .t span{font-size:.8rem;color:var(--dim)}
+.gh-vs .t b{font-size:clamp(1.6rem,7vw,2.4rem);font-family:var(--f-mono);line-height:1.1}
+.gh-vs .v{font-family:var(--f-mono);color:var(--dim);font-size:.8rem;padding-bottom:6px}
+.gh-bar{height:10px;border-radius:5px;overflow:hidden;display:flex;background:rgba(255,255,255,.1)}
+.gh-bar i{display:block;height:100%;transition:width .8s cubic-bezier(.22,.61,.36,1)}
+.gh-sec{display:grid;gap:10px}
+.gh-sec > h3{margin:0;font-family:var(--f-mono);font-size:.74rem;letter-spacing:.18em;color:var(--gold);font-weight:400}
+.gh-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;display:grid;gap:8px}
+.gh-card.ltd{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,210,122,.25) inset}
+.gh-card h4{margin:0;font-size:1.08rem}
+.gh-card .until{font-size:.76rem;color:var(--gold)}
+.gh-card .mini{display:flex;gap:12px;font-family:var(--f-mono);font-size:.8rem;color:var(--dim)}
+.gh-card .mini b{color:#fff}
+.gh-btn{justify-self:start;border:0;border-radius:999px;padding:9px 20px;font-weight:700;background:var(--gold);color:#1a1405}
+.gh-btn.sub{background:rgba(255,255,255,.12);color:#fff}
+.gh-empty{color:var(--dim);font-size:.88rem;border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:14px;text-align:center}
+.gh-pick{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gh-team{border:2px solid var(--c);border-radius:20px;padding:22px 12px;display:grid;gap:8px;place-items:center;color:#fff;background:color-mix(in srgb,var(--c) 18%,transparent);transition:transform .2s}
+.gh-team:hover{transform:translateY(-3px)}
+.gh-team i{width:44px;height:44px;border-radius:50%;background:var(--c);display:block}
+.gh-team b{font-size:1.05rem}
+.gh-team span{font-size:.8rem;color:var(--dim)}
+.gh-note{font-size:.8rem;color:var(--dim)}
+.pd-res{font-family:var(--f-mono);font-size:2.2rem;color:var(--n-gold);margin:4px 0}
+
 /* ===== 設定(歯車) ===== */
 .gear{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:16px;z-index:900;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center;color:var(--fg);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .4s cubic-bezier(.22,.61,.36,1),border-color .2s}
 .gear svg{transition:transform .5s cubic-bezier(.22,.61,.36,1)}
@@ -483,6 +524,8 @@ body.quick main,body.quick #f{display:none}
   <div class="pd-card" id="pdCard"></div>
 </div>
 
+<div class="gh" id="gh" role="dialog" aria-modal="true" aria-label="ゲーム" hidden><div class="gh-in" id="ghIn"></div></div>
+
 <!-- Netlify Forms がお問い合わせを受け取るためのフォーム(画面には出ません) -->
 <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="contact">
@@ -502,7 +545,7 @@ body.quick main,body.quick #f{display:none}
   </div>
 </form>
 
-<script type="application/json" id="default-content">{"version": 1, "intro": {"show": true, "image": "/img/park.webp", "caption": {"ja": "いつか、こんなテーマパークをつくりたい。", "en": "Someday, I want to build a theme park like this."}, "sub": {"ja": "AIでつくった構想イメージ", "en": "AI-GENERATED CONCEPT IMAGE"}}, "hello": {"ja": ["こんにちは、", "私は林勇斗です"], "en": ["Hello, ", "I’m Hayashi Yuto"], "beaverJa": "私はビーバーです", "beaverEn": "I’m Beaver"}, "dock": [{"q": "works", "ja": "作品を見せて", "en": "Show me your work", "show": true}, {"q": "about", "ja": "どんな人?", "en": "Who are you?", "show": true}, {"q": "skills", "ja": "何ができる?", "en": "What can you do?", "show": true}, {"q": "future", "ja": "これから何をつくる?", "en": "What’s next?", "show": true}, {"q": "contact", "ja": "お問い合わせ", "en": "Contact", "show": true}], "quick": [{"id": "park", "show": true}, {"id": "hero", "show": true}, {"id": "profile", "show": true}, {"id": "works", "show": true}, {"id": "skills", "show": true}, {"id": "future", "show": true}, {"id": "contact", "show": true}], "about": {"ja": ["林勇斗です。大阪で、体験をつくっています。目標は、テーマパークのショーやアトラクションをつくることです。", "アイデアを考えるだけで終わらせず、Webや映像で実際に動く形にするところまで自分でやります。"], "en": ["I’m Hayashi Yuto. I create experiences in Osaka, Japan. My goal is to make theme park shows and attractions.", "I don’t stop at ideas — I build them into things that actually work, on the web and on film, by myself."], "photo": "/img/about.jpg"}, "profile": {"ja": [["名前", "林 勇斗 / Hayashi Yuto"], ["生年月日", "2008年8月13日"], ["拠点", "大阪"], ["目標", "テーマパークのショー・アトラクションづくり"], ["好きなこと", "テーマパーク、ギター、ピアノ"]], "en": [["Name", "Hayashi Yuto / 林 勇斗"], ["Born", "August 13, 2008"], ["Based in", "Osaka, Japan"], ["Goal", "Creating theme park shows & attractions"], ["Loves", "Theme parks, guitar, piano"]]}, "skills": {"lead": {"ja": ["得意なことはこの5つです。"], "en": ["These are my five strengths."]}, "ja": [["体験設計", "イマーシブ・イベントの企画"], ["Web", "HTML / CSS / JS、AIを使ったツール"], ["映像", "取材・撮影・構成"], ["企画とプレゼン", "伝わるスライドと発表"], ["音楽", "ギター・ピアノ"]], "en": [["Experience design", "Planning immersive experiences and events"], ["Web", "HTML / CSS / JS, tools built with AI"], ["Film", "Reporting, shooting, story structure"], ["Planning & pitching", "Clear slides and presentations"], ["Music", "Guitar, piano"]]}, "works": [{"id": "veil", "short": "SNS風の画面で手がかりを追う、物語に入りこむWeb体験", "title": "体験型コンテンツ制作", "kind": "Webサイト", "role": "企画・設計・開発", "text": "遊ぶ人が物語の中に入りこめる、体験型のWebサイトをつくっています。代表作の「WIRE」は、SNS風の画面の中で手がかりを追い、謎を解いていくミステリーゲームです。遊ぶ人自身が物語の登場人物になるように設計しました。", "tags": ["体験設計", "ゲームデザイン", "HTML / CSS / JS"], "en": {"title": "Interactive Content", "kind": "Website", "role": "Concept, design, development", "short": "A story-driven web experience where you chase clues on an SNS-style screen", "text": "I create interactive websites that pull players into the story. My main work, “WIRE,” is a mystery game where you follow clues and solve puzzles inside an SNS-style screen. I designed it so the players themselves become characters in the story.", "tags": ["Experience design", "Game design", "HTML / CSS / JS"]}}, {"id": "qunasys", "thumb": "/img/qunasys.jpg", "short": "2050年に欲しいガジェットを提案し、チームで優勝", "embed": "https://drive.google.com/file/d/1TQ0p3JSMcVXY9-oSvXW2Y-wcrZzWjYHH/preview", "title": "未来のガジェット提案", "kind": "企画", "role": "スライド制作", "badge": "優勝", "text": "N高×QunaSysの課外活動で、「2050年に欲しいガジェット」というお題に対してチームで話し合い、発表して、優勝しました。私は、提案が伝わるスライドの構成とデザインを担当しました。", "tags": ["企画", "プレゼン", "QunaSys"], "en": {"title": "Future Gadget Proposal", "kind": "Concept", "role": "Slide design", "badge": "Winner", "short": "Proposed a gadget we want in 2050 — and our team won", "text": "In an extracurricular program by N High School and QunaSys, a quantum computing company, our team discussed the theme “a gadget we want in 2050,” presented our idea, and won first place. I was in charge of the structure and design of the slides that made our idea clear.", "tags": ["Planning", "Presentation", "QunaSys"]}}, {"id": "film", "thumb": "/img/film.jpg", "short": "大阪・梅田の炊き出しを取材したドキュメンタリー", "embed": "https://drive.google.com/file/d/14LJP7L59HrLr5RDfpwHdPMHBZA5R-xhc/preview", "title": "フードロス・ドキュメンタリー", "kind": "映像", "role": "カメラ", "text": "N高×LINEヤフーの課外活動で、ドキュメンタリーを制作しました。私の班ではフードロスを題材にして、私は母校と、梅田の炊き出しの現場に行って取材しました。カメラマンとして、映像の画づくりと構成も担当しました。", "tags": ["映像制作", "取材", "LINEヤフー"], "en": {"title": "Food Loss Documentary", "kind": "Film", "role": "Camera", "short": "A documentary about a community food handout in Umeda, Osaka", "text": "In an extracurricular program by N High School and LINE Yahoo, we made a documentary. My group chose food loss as our theme, and I went to my former school and to a community food handout in Umeda, Osaka, to report. As the camera operator, I also handled the look of the shots and the structure of the film.", "tags": ["Filmmaking", "Reporting", "LINE Yahoo"]}}, {"id": "memoru", "short": "雑に取ったメモを、AIが整理してくれるWebアプリ", "link": "https://tangerine-zuccutto-6a1789.netlify.app/", "title": "メモるくん", "kind": "Webアプリ", "role": "企画・開発", "img": "/img/memoru.jpg", "text": "話を聞きながら雑にメモを取り、終わったらボタン一つでAIが整理してくれるWebアプリです。PREP法での入力、手書き、音声入力に対応しています。4桁のルーム番号をそろえれば、みんなで同じメモをその場で共有することもできます。", "tags": ["Gemini API", "音声入力", "リアルタイム共有", "HTML / CSS / JS"], "en": {"title": "Memoru-kun", "kind": "Web app", "role": "Concept, development", "short": "A web app where AI tidies up your messy notes", "text": "Jot down rough notes while you listen, then tap one button and AI organizes them for you. It supports PREP-style input, handwriting, and voice input. Enter the same 4-digit room number, and everyone can share the same notes in real time.", "tags": ["Gemini API", "Voice input", "Real-time sharing", "HTML / CSS / JS"]}, "story": {"ja": [{"h": "使っている技術", "p": "AIの部分には、GoogleのGemini APIを使っています。"}], "en": [{"h": "Under the hood", "p": "The AI part uses Google’s Gemini API."}]}}, {"id": "ybe", "short": "「ビーバーの世界のインターネット」をつくったポータルサイト", "link": "https://timely-kitsune-a54a99.netlify.app/", "title": "YBe! JAPAN", "kind": "世界観づくり", "role": "企画・デザイン・開発", "img": "/img/ybe.jpg", "text": "ニックネームの「ビーバー」にちなんで、ビーバーの世界はどんなものなのか、ビーバーの世界では何が使われているのかを、人間にも体験してもらおう、という設定でつくったポータルサイトです。ニュース、天気、占いまで揃えて、架空の世界を本物のサービスのように見せています。", "tags": ["世界観設計", "Webデザイン"], "en": {"title": "YBe! JAPAN", "kind": "Worldbuilding", "role": "Concept, design, development", "short": "A portal site for “the internet in a world of beavers”", "text": "Inspired by my nickname, “Beaver,” I built this portal site around one idea: let humans experience what the world of beavers is like, and what beavers use there. With news, weather, and even horoscopes, it makes a made-up world look like a real online service.", "tags": ["Worldbuilding", "Web design"]}, "story": {"ja": [{"h": "ビーバーの世界の道具", "p": "ビーバーの世界では、何が使われているのか。その答えとして、ビーバーのためのインターネットをつくりました。"}, {"h": "一番の自信作", "p": "このポートフォリオの中で、一番自信のある作品です。"}], "en": [{"h": "Tools of the beaver world", "p": "What do beavers use in their world? My answer: an internet made just for beavers."}, {"h": "My proudest work", "p": "Of everything in this portfolio, this is the one I’m most proud of."}]}}], "future": [{"id": "park", "img": "/img/park.webp", "viewer": true, "title": "将来つくりたいテーマパーク", "kind": "テーマパーク構想", "role": "構想", "short": "いつか、こんなテーマパークをつくりたい", "text": "いつか、こんなテーマパークをつくりたいと思っています。これは、私が考えている将来のパークを、AIでつくった構想イメージです。", "tags": ["テーマパーク", "構想イメージ(AI)"], "en": {"title": "The Theme Park I Want to Build", "kind": "Theme park concept", "role": "Concept", "short": "Someday, I want to build a theme park like this", "text": "Someday, I want to build a theme park like this. This is an AI-generated concept image of the park I imagine for the future.", "tags": ["Theme park", "Concept image (AI)"]}, "story": {"ja": [{"z": {"x": 0.5, "y": 0.43, "s": 2.6}, "h": "最大の魅力「360° Island」", "p": "パークの真ん中にうかぶ島「360° Island」が、このパークの象徴です。地下の入り口とショップをぬけた先にあります。ディズニーでいう、シンデレラ城のような存在です。"}, {"z": {"x": 0.5, "y": 0.43, "s": 1.5}, "h": "なぜ360°なのか", "p": "シンデレラ城は、どれだけ感動しても、最初に目に入る角度は180°です。でも360° Islandからは、パークを360°ぐるっと一望できます。見る方角によって、それぞれテーマがちがいます。各エリアとこの島は、歩道橋でつながっています。"}, {"z": {"x": 0.25, "y": 0.25, "s": 2}, "h": "仮想の街(スペイン風)", "p": "スペイン風の仮想の街です。ここにしかない、仮想のエリアです。"}, {"z": {"x": 0.25, "y": 0.75, "s": 2}, "h": "スペインエリア", "p": "実際にあるスペインの街を再現したエリアです。ここでは、みんなでいっしょにラテン音楽を演奏したり、ダークライド「ドン・キホーテと風車の巨人」に乗ったりできます。このライドでは、物語の世界を旅するうちに、風車が本当に巨人に見えてきます。"}, {"z": {"x": 0.75, "y": 0.75, "s": 2}, "h": "ラスベガスエリア", "p": "実際にあるラスベガスの街を再現したエリアです。360° Islandから見ると、華やかなラスベガスの街。でも一歩、裏へ足をふみ入れると、想像を絶する景色が広がっています。そこには、地球外生命体を研究する施設「エリア51」や、謎の犯罪組織のアジトも。あなたは、この街から逃れることができるのか――。"}, {"z": {"x": 0.75, "y": 0.25, "s": 2}, "h": "アメリカンキッズワールド", "p": "華やかなカーニバルの街へようこそ！この街では、子どもが主役。そしてこのエリアに入った全員が子ども。街中には、誰もが楽しいアトラクションがいっぱい！ここでの合言葉は「We are kids!」。世界中の子どもたちが築いていく街を、みんなでいっしょに盛り上げよう！"}], "en": [{"z": {"x": 0.5, "y": 0.43, "s": 2.6}, "h": "The highlight: “360° Island”", "p": "The island floating in the middle, “360° Island,” is the symbol of this park. You reach it after passing through an underground entrance and shops. It’s like Cinderella Castle at Disney."}, {"z": {"x": 0.5, "y": 0.43, "s": 1.5}, "h": "Why 360°?", "p": "No matter how moving Cinderella Castle is, you first see it from a 180° angle. But from 360° Island, you can see the whole park all the way around. Each direction has its own theme, and every area is connected to the island by a footbridge."}, {"z": {"x": 0.25, "y": 0.25, "s": 2}, "h": "Virtual town (Spanish style)", "p": "A Spanish-style virtual town — an area that exists only here."}, {"z": {"x": 0.25, "y": 0.75, "s": 2}, "h": "Spain Area", "p": "This area recreates a real city in Spain. Here, you can play Latin music together with everyone, and ride the dark ride “Don Quixote and the Windmill Giants,” where, as you travel through the story, the windmills start to look like real giants."}, {"z": {"x": 0.75, "y": 0.75, "s": 2}, "h": "Las Vegas Area", "p": "This area recreates the real city of Las Vegas. From 360° Island, it looks like dazzling Las Vegas. But step into the back streets, and an unimaginable scene unfolds: Area 51, a facility that studies extraterrestrial life, and the hideout of a mysterious crime syndicate. Can you escape from this city…?"}, {"z": {"x": 0.75, "y": 0.25, "s": 2}, "h": "American Kids World", "p": "Welcome to a dazzling carnival town! Here, kids are the stars — and everyone who enters this area becomes a kid. The streets are packed with attractions everyone can enjoy! The password here is “We are kids!” Let’s all cheer on this town, built by children from all around the world!"}]}}, {"id": "hybrid", "title": "Hybrid Live Entertainment", "kind": "ライブエンターテイメント", "role": "企画", "short": "現実とARを、同じ舞台へ", "more": "https://euphonious-gnome-513e1a.netlify.app/", "text": "生身のキャストと、スマホ越しに見えるARのキャラクターが同じ空間で会話しながら、物語を進めていくライブ体験です。見るだけではなく、現実に参加するエンターテインメントをつくりたいと考えています。", "tags": ["WebAR", "Live Sync", "Portable"], "en": {"kind": "Live entertainment", "role": "Concept", "short": "Reality and AR on the same stage", "text": "A live experience where real cast members and AR characters you see through your phone talk with each other in the same space and move the story forward. I want to make entertainment you don’t just watch — you take part in it, for real."}, "story": {"ja": [{"h": "テーマ", "p": "現実とARを、同じ舞台へ。"}, {"h": "観客が物語を変える", "p": "観客の選択によって、物語や照明、演出、キャストの反応まで変わります。"}, {"h": "今ある場所を書き換える", "p": "大きなテーマパークを新しくつくるのではなく、今ある施設や街の空間そのものを書き換えます。アプリは不要で、QRコードを読みこむだけで参加できます。"}, {"h": "3つのしくみ", "p": "WebAR:アプリ不要、ブラウザだけで参加。Live Sync:AR・照明・音響・演技がリアルタイムで連動。Portable:小さな空間でも、世界中どこでも展開。"}], "en": [{"h": "The theme", "p": "Reality and AR on the same stage."}, {"h": "The audience changes the story", "p": "The audience’s choices change the story, the lighting, the staging, and even how the cast reacts."}, {"h": "Rewriting real places", "p": "Instead of building a huge new theme park, it rewrites spaces that already exist — buildings and streets. No app needed: just scan a QR code to join."}, {"h": "Three key ideas", "p": "WebAR: no app, join right in your browser. Live Sync: AR, lighting, sound and acting linked in real time. Portable: works in small spaces, anywhere in the world."}]}}, {"id": "mini", "title": "小型常設アトラクション", "kind": "アトラクション", "role": "企画", "short": "小さな場所に置ける、常設のアトラクション", "text": "小さな場所に常設できるアトラクションを企画しています。くわしい内容は、これから公開します。", "tags": ["アトラクション", "常設"], "en": {"title": "Compact Permanent Attraction", "kind": "Attraction", "role": "Concept", "short": "A permanent attraction that fits in a small space", "text": "I’m planning an attraction that can be installed permanently in a small space. More details are coming soon.", "tags": ["Attraction", "Permanent"]}}], "answers": {"home": {"ja": ["大阪を拠点に活動しています。"], "en": ["I’m based in Osaka, Japan."]}, "school": {"ja": ["N高等学校に通っています。"], "en": ["I go to N High School."]}, "univ": {"ja": ["大阪芸術大学に進学予定です。"], "en": ["I’m planning to go to Osaka University of Arts."]}, "nickname": {"ja": ["「ビーバー」は、私のニックネームです。"], "en": ["“Beaver” is my nickname."]}, "hobby": {"ja": ["趣味は、テーマパークに行くこと、ギター、ピアノです。"], "en": ["My hobbies are going to theme parks, guitar, and piano."]}, "personality": {"ja": ["思いついたら、すぐ形にしたくなる性格です。"], "en": ["Once I think of something, I want to make it real right away."]}, "food": {"ja": ["好きな食べ物は、ピザです。"], "en": ["My favorite food is pizza."]}, "english": {"ja": ["英語は、いま練習中です。", "外国の人と話すのが好きです。"], "en": ["I’m practicing English right now.", "I love talking with people from other countries."]}, "how": {"ja": ["思いついたアイデアを、AIを使って形にしています。"], "en": ["I take ideas I come up with and turn them into real things using AI."]}, "team": {"ja": ["半々くらいです。", "1人でつくることもあるし、学校のイベントや課外活動では、みんなでつくります。"], "en": ["About half and half.", "Sometimes I make things alone, and for school events and extracurricular programs, I make them with everyone."]}, "idea": {"ja": ["じつは、自分でもよくわからないんです。", "ふとしたときに思いつきます。"], "en": ["Honestly, I’m not sure myself.", "They just come to me out of nowhere."]}, "value": {"ja": ["「自分がゲストだったら楽しいか」を、いつも考えています。", "ゲストがその世界観に没入できるように、サイトも細部までこだわってつくっています。"], "en": ["I always ask myself: “Would this be fun if I were the guest?”", "So that guests can sink into the world, I care about every small detail, even on my websites."]}, "park": {"ja": ["いちばん好きなテーマパークは、ユニバ(USJ)です。小学2年生のときに初めて行って、めちゃめちゃハマりました。", "いつか、テーマパークのショーやアトラクションをつくる側に立ちたいと思っています。来た人が「日常」を忘れられるような体験をつくるのが目標です。"], "en": ["My favorite theme park is Universal Studios Japan (USJ). I went there for the first time in 2nd grade and got completely hooked.", "Someday I want to be on the side that creates the shows and attractions. My goal is to make experiences that let people forget their everyday life."]}, "ride": {"ja": ["好きなアトラクションは、ユニバの「スペース・ファンタジー・ザ・ライド」です。"], "en": ["My favorite attraction is “Space Fantasy – The Ride” at Universal Studios Japan."]}, "show": {"ja": ["キャラクターがメインのショーより、人がメインのショーが好きです。", "パレードは、どれも全部好きです。"], "en": ["I like shows where people are the stars more than shows centered on characters.", "And parades — I love every single one."]}, "career": {"ja": ["USJのような、テーマパークの会社でショーやアトラクションをつくりたいです。"], "en": ["I want to create shows and attractions at a theme park company like USJ."]}, "ent": {"ja": ["イマーシブシアターや、とにかくクレイジーなものが好きです。"], "en": ["Immersive theater, and anything that’s totally crazy."]}, "immersive": {"ja": ["見るだけではなく、その世界の中に入って参加する体験のことです。", "私がつくりたいのも、こういう体験です。"], "en": ["It means an experience where you don’t just watch — you step inside that world and take part.", "That’s exactly the kind of experience I want to make."]}, "music": {"ja": ["ギターとピアノを弾きます。ピアノは9年ほど続けています。", "音楽は、ショーやアトラクションの演出を考えるときの感覚の土台にもなっています。"], "en": ["I play guitar and piano. I’ve been playing piano for about 9 years.", "Music is also the base of my sense for staging when I think about shows and attractions."]}, "site": {"ja": ["このポートフォリオは、AIと話しながら作品を見られるようにつくりました。見るだけではなく、体験してもらいたかったからです。", "じつは、このページのどこかに、ちょっとしたイベントもかくれています。よかったら探してみてください。"], "en": ["I made this portfolio so you can see my work while chatting with an AI. I wanted you to experience it, not just look at it.", "Actually, there’s a little event hidden somewhere on this page. Try to find it if you like."]}, "job": {"ja": ["はい、内容によってお受けできます。まずはお問い合わせからご連絡ください。"], "en": ["Yes, depending on the project. Please reach out through Contact first."]}, "web": {"ja": ["はい、つくれます。お問い合わせからご相談ください。"], "en": ["Yes, I can. Feel free to ask through Contact."]}, "collab": {"ja": ["うれしいです!お問い合わせから気軽に声をかけてください。"], "en": ["That would make me happy! Feel free to reach out through Contact."]}}, "quickHero": {"ja": "テーマパークのショーやアトラクションのような体験をつくっています。アイデアを考えるだけで終わらせず、Webや映像で実際に動く形にするところまで自分でやります。", "en": "I create experiences like theme park shows and attractions. I don’t stop at ideas — I build them into things that actually work, on the web and on film, by myself."}}</script>
+<script type="application/json" id="default-content">{"version": 1, "intro": {"show": true, "image": "/img/park.webp", "caption": {"ja": "いつか、こんなテーマパークをつくりたい。", "en": "Someday, I want to build a theme park like this."}, "sub": {"ja": "AIでつくった構想イメージ", "en": "AI-GENERATED CONCEPT IMAGE"}, "sizePc": 60, "sizeSp": 100}, "hello": {"ja": ["こんにちは、", "私は林勇斗です"], "en": ["Hello, ", "I’m Hayashi Yuto"], "beaverJa": "私はビーバーです", "beaverEn": "I’m Beaver"}, "dock": [{"q": "works", "ja": "作品を見せて", "en": "Show me your work", "show": true}, {"q": "about", "ja": "どんな人?", "en": "Who are you?", "show": true}, {"q": "skills", "ja": "何ができる?", "en": "What can you do?", "show": true}, {"q": "future", "ja": "これから何をつくる?", "en": "What’s next?", "show": true}, {"q": "contact", "ja": "お問い合わせ", "en": "Contact", "show": true}, {"q": "game", "ja": "ゲーム", "en": "Games", "show": true}], "quick": [{"id": "park", "show": true}, {"id": "hero", "show": true}, {"id": "profile", "show": true}, {"id": "works", "show": true}, {"id": "skills", "show": true}, {"id": "future", "show": true}, {"id": "contact", "show": true}], "about": {"ja": ["林勇斗です。大阪で、体験をつくっています。目標は、テーマパークのショーやアトラクションをつくることです。", "アイデアを考えるだけで終わらせず、Webや映像で実際に動く形にするところまで自分でやります。"], "en": ["I’m Hayashi Yuto. I create experiences in Osaka, Japan. My goal is to make theme park shows and attractions.", "I don’t stop at ideas — I build them into things that actually work, on the web and on film, by myself."], "photo": "/img/about.jpg"}, "profile": {"ja": [["名前", "林 勇斗 / Hayashi Yuto"], ["生年月日", "2008年8月13日"], ["拠点", "大阪"], ["目標", "テーマパークのショー・アトラクションづくり"], ["好きなこと", "テーマパーク、ギター、ピアノ"]], "en": [["Name", "Hayashi Yuto / 林 勇斗"], ["Born", "August 13, 2008"], ["Based in", "Osaka, Japan"], ["Goal", "Creating theme park shows & attractions"], ["Loves", "Theme parks, guitar, piano"]]}, "skills": {"lead": {"ja": ["得意なことはこの5つです。"], "en": ["These are my five strengths."]}, "ja": [["体験設計", "イマーシブ・イベントの企画"], ["Web", "HTML / CSS / JS、AIを使ったツール"], ["映像", "取材・撮影・構成"], ["企画とプレゼン", "伝わるスライドと発表"], ["音楽", "ギター・ピアノ"]], "en": [["Experience design", "Planning immersive experiences and events"], ["Web", "HTML / CSS / JS, tools built with AI"], ["Film", "Reporting, shooting, story structure"], ["Planning & pitching", "Clear slides and presentations"], ["Music", "Guitar, piano"]]}, "works": [{"id": "veil", "short": "SNS風の画面で手がかりを追う、物語に入りこむWeb体験", "title": "体験型コンテンツ制作", "kind": "Webサイト", "role": "企画・設計・開発", "text": "遊ぶ人が物語の中に入りこめる、体験型のWebサイトをつくっています。代表作の「WIRE」は、SNS風の画面の中で手がかりを追い、謎を解いていくミステリーゲームです。遊ぶ人自身が物語の登場人物になるように設計しました。", "tags": ["体験設計", "ゲームデザイン", "HTML / CSS / JS"], "en": {"title": "Interactive Content", "kind": "Website", "role": "Concept, design, development", "short": "A story-driven web experience where you chase clues on an SNS-style screen", "text": "I create interactive websites that pull players into the story. My main work, “WIRE,” is a mystery game where you follow clues and solve puzzles inside an SNS-style screen. I designed it so the players themselves become characters in the story.", "tags": ["Experience design", "Game design", "HTML / CSS / JS"]}}, {"id": "qunasys", "thumb": "/img/qunasys.jpg", "short": "2050年に欲しいガジェットを提案し、チームで優勝", "embed": "https://drive.google.com/file/d/1TQ0p3JSMcVXY9-oSvXW2Y-wcrZzWjYHH/preview", "title": "未来のガジェット提案", "kind": "企画", "role": "スライド制作", "badge": "優勝", "text": "N高×QunaSysの課外活動で、「2050年に欲しいガジェット」というお題に対してチームで話し合い、発表して、優勝しました。私は、提案が伝わるスライドの構成とデザインを担当しました。", "tags": ["企画", "プレゼン", "QunaSys"], "en": {"title": "Future Gadget Proposal", "kind": "Concept", "role": "Slide design", "badge": "Winner", "short": "Proposed a gadget we want in 2050 — and our team won", "text": "In an extracurricular program by N High School and QunaSys, a quantum computing company, our team discussed the theme “a gadget we want in 2050,” presented our idea, and won first place. I was in charge of the structure and design of the slides that made our idea clear.", "tags": ["Planning", "Presentation", "QunaSys"]}}, {"id": "film", "thumb": "/img/film.jpg", "short": "大阪・梅田の炊き出しを取材したドキュメンタリー", "embed": "https://drive.google.com/file/d/14LJP7L59HrLr5RDfpwHdPMHBZA5R-xhc/preview", "title": "フードロス・ドキュメンタリー", "kind": "映像", "role": "カメラ", "text": "N高×LINEヤフーの課外活動で、ドキュメンタリーを制作しました。私の班ではフードロスを題材にして、私は母校と、梅田の炊き出しの現場に行って取材しました。カメラマンとして、映像の画づくりと構成も担当しました。", "tags": ["映像制作", "取材", "LINEヤフー"], "en": {"title": "Food Loss Documentary", "kind": "Film", "role": "Camera", "short": "A documentary about a community food handout in Umeda, Osaka", "text": "In an extracurricular program by N High School and LINE Yahoo, we made a documentary. My group chose food loss as our theme, and I went to my former school and to a community food handout in Umeda, Osaka, to report. As the camera operator, I also handled the look of the shots and the structure of the film.", "tags": ["Filmmaking", "Reporting", "LINE Yahoo"]}}, {"id": "memoru", "short": "雑に取ったメモを、AIが整理してくれるWebアプリ", "link": "https://tangerine-zuccutto-6a1789.netlify.app/", "title": "メモるくん", "kind": "Webアプリ", "role": "企画・開発", "img": "/img/memoru.jpg", "text": "話を聞きながら雑にメモを取り、終わったらボタン一つでAIが整理してくれるWebアプリです。PREP法での入力、手書き、音声入力に対応しています。4桁のルーム番号をそろえれば、みんなで同じメモをその場で共有することもできます。", "tags": ["Gemini API", "音声入力", "リアルタイム共有", "HTML / CSS / JS"], "en": {"title": "Memoru-kun", "kind": "Web app", "role": "Concept, development", "short": "A web app where AI tidies up your messy notes", "text": "Jot down rough notes while you listen, then tap one button and AI organizes them for you. It supports PREP-style input, handwriting, and voice input. Enter the same 4-digit room number, and everyone can share the same notes in real time.", "tags": ["Gemini API", "Voice input", "Real-time sharing", "HTML / CSS / JS"]}, "story": {"ja": [{"h": "使っている技術", "p": "AIの部分には、GoogleのGemini APIを使っています。"}], "en": [{"h": "Under the hood", "p": "The AI part uses Google’s Gemini API."}]}}, {"id": "ybe", "short": "「ビーバーの世界のインターネット」をつくったポータルサイト", "link": "https://timely-kitsune-a54a99.netlify.app/", "title": "YBe! JAPAN", "kind": "世界観づくり", "role": "企画・デザイン・開発", "img": "/img/ybe.jpg", "text": "ニックネームの「ビーバー」にちなんで、ビーバーの世界はどんなものなのか、ビーバーの世界では何が使われているのかを、人間にも体験してもらおう、という設定でつくったポータルサイトです。ニュース、天気、占いまで揃えて、架空の世界を本物のサービスのように見せています。", "tags": ["世界観設計", "Webデザイン"], "en": {"title": "YBe! JAPAN", "kind": "Worldbuilding", "role": "Concept, design, development", "short": "A portal site for “the internet in a world of beavers”", "text": "Inspired by my nickname, “Beaver,” I built this portal site around one idea: let humans experience what the world of beavers is like, and what beavers use there. With news, weather, and even horoscopes, it makes a made-up world look like a real online service.", "tags": ["Worldbuilding", "Web design"]}, "story": {"ja": [{"h": "ビーバーの世界の道具", "p": "ビーバーの世界では、何が使われているのか。その答えとして、ビーバーのためのインターネットをつくりました。"}, {"h": "一番の自信作", "p": "このポートフォリオの中で、一番自信のある作品です。"}], "en": [{"h": "Tools of the beaver world", "p": "What do beavers use in their world? My answer: an internet made just for beavers."}, {"h": "My proudest work", "p": "Of everything in this portfolio, this is the one I’m most proud of."}]}}], "future": [{"id": "park", "img": "/img/park.webp", "viewer": true, "title": "将来つくりたいテーマパーク", "kind": "テーマパーク構想", "role": "構想", "short": "いつか、こんなテーマパークをつくりたい", "text": "いつか、こんなテーマパークをつくりたいと思っています。これは、私が考えている将来のパークを、AIでつくった構想イメージです。", "tags": ["テーマパーク", "構想イメージ(AI)"], "en": {"title": "The Theme Park I Want to Build", "kind": "Theme park concept", "role": "Concept", "short": "Someday, I want to build a theme park like this", "text": "Someday, I want to build a theme park like this. This is an AI-generated concept image of the park I imagine for the future.", "tags": ["Theme park", "Concept image (AI)"]}, "story": {"ja": [{"z": {"x": 0.5, "y": 0.43, "s": 2.6}, "h": "最大の魅力「360° Island」", "p": "パークの真ん中にうかぶ島「360° Island」が、このパークの象徴です。地下の入り口とショップをぬけた先にあります。ディズニーでいう、シンデレラ城のような存在です。"}, {"z": {"x": 0.5, "y": 0.43, "s": 1.5}, "h": "なぜ360°なのか", "p": "シンデレラ城は、どれだけ感動しても、最初に目に入る角度は180°です。でも360° Islandからは、パークを360°ぐるっと一望できます。見る方角によって、それぞれテーマがちがいます。各エリアとこの島は、歩道橋でつながっています。"}, {"z": {"x": 0.25, "y": 0.25, "s": 2}, "h": "仮想の街(スペイン風)", "p": "スペイン風の仮想の街です。ここにしかない、仮想のエリアです。"}, {"z": {"x": 0.25, "y": 0.75, "s": 2}, "h": "スペインエリア", "p": "実際にあるスペインの街を再現したエリアです。ここでは、みんなでいっしょにラテン音楽を演奏したり、ダークライド「ドン・キホーテと風車の巨人」に乗ったりできます。このライドでは、物語の世界を旅するうちに、風車が本当に巨人に見えてきます。"}, {"z": {"x": 0.75, "y": 0.75, "s": 2}, "h": "ラスベガスエリア", "p": "実際にあるラスベガスの街を再現したエリアです。360° Islandから見ると、華やかなラスベガスの街。でも一歩、裏へ足をふみ入れると、想像を絶する景色が広がっています。そこには、地球外生命体を研究する施設「エリア51」や、謎の犯罪組織のアジトも。あなたは、この街から逃れることができるのか――。"}, {"z": {"x": 0.75, "y": 0.25, "s": 2}, "h": "アメリカンキッズワールド", "p": "華やかなカーニバルの街へようこそ！この街では、子どもが主役。そしてこのエリアに入った全員が子ども。街中には、誰もが楽しいアトラクションがいっぱい！ここでの合言葉は「We are kids!」。世界中の子どもたちが築いていく街を、みんなでいっしょに盛り上げよう！"}], "en": [{"z": {"x": 0.5, "y": 0.43, "s": 2.6}, "h": "The highlight: “360° Island”", "p": "The island floating in the middle, “360° Island,” is the symbol of this park. You reach it after passing through an underground entrance and shops. It’s like Cinderella Castle at Disney."}, {"z": {"x": 0.5, "y": 0.43, "s": 1.5}, "h": "Why 360°?", "p": "No matter how moving Cinderella Castle is, you first see it from a 180° angle. But from 360° Island, you can see the whole park all the way around. Each direction has its own theme, and every area is connected to the island by a footbridge."}, {"z": {"x": 0.25, "y": 0.25, "s": 2}, "h": "Virtual town (Spanish style)", "p": "A Spanish-style virtual town — an area that exists only here."}, {"z": {"x": 0.25, "y": 0.75, "s": 2}, "h": "Spain Area", "p": "This area recreates a real city in Spain. Here, you can play Latin music together with everyone, and ride the dark ride “Don Quixote and the Windmill Giants,” where, as you travel through the story, the windmills start to look like real giants."}, {"z": {"x": 0.75, "y": 0.75, "s": 2}, "h": "Las Vegas Area", "p": "This area recreates the real city of Las Vegas. From 360° Island, it looks like dazzling Las Vegas. But step into the back streets, and an unimaginable scene unfolds: Area 51, a facility that studies extraterrestrial life, and the hideout of a mysterious crime syndicate. Can you escape from this city…?"}, {"z": {"x": 0.75, "y": 0.25, "s": 2}, "h": "American Kids World", "p": "Welcome to a dazzling carnival town! Here, kids are the stars — and everyone who enters this area becomes a kid. The streets are packed with attractions everyone can enjoy! The password here is “We are kids!” Let’s all cheer on this town, built by children from all around the world!"}]}}, {"id": "hybrid", "title": "Hybrid Live Entertainment", "kind": "ライブエンターテイメント", "role": "企画", "short": "現実とARを、同じ舞台へ", "more": "https://euphonious-gnome-513e1a.netlify.app/", "text": "生身のキャストと、スマホ越しに見えるARのキャラクターが同じ空間で会話しながら、物語を進めていくライブ体験です。見るだけではなく、現実に参加するエンターテインメントをつくりたいと考えています。", "tags": ["WebAR", "Live Sync", "Portable"], "en": {"kind": "Live entertainment", "role": "Concept", "short": "Reality and AR on the same stage", "text": "A live experience where real cast members and AR characters you see through your phone talk with each other in the same space and move the story forward. I want to make entertainment you don’t just watch — you take part in it, for real."}, "story": {"ja": [{"h": "テーマ", "p": "現実とARを、同じ舞台へ。"}, {"h": "観客が物語を変える", "p": "観客の選択によって、物語や照明、演出、キャストの反応まで変わります。"}, {"h": "今ある場所を書き換える", "p": "大きなテーマパークを新しくつくるのではなく、今ある施設や街の空間そのものを書き換えます。アプリは不要で、QRコードを読みこむだけで参加できます。"}, {"h": "3つのしくみ", "p": "WebAR:アプリ不要、ブラウザだけで参加。Live Sync:AR・照明・音響・演技がリアルタイムで連動。Portable:小さな空間でも、世界中どこでも展開。"}], "en": [{"h": "The theme", "p": "Reality and AR on the same stage."}, {"h": "The audience changes the story", "p": "The audience’s choices change the story, the lighting, the staging, and even how the cast reacts."}, {"h": "Rewriting real places", "p": "Instead of building a huge new theme park, it rewrites spaces that already exist — buildings and streets. No app needed: just scan a QR code to join."}, {"h": "Three key ideas", "p": "WebAR: no app, join right in your browser. Live Sync: AR, lighting, sound and acting linked in real time. Portable: works in small spaces, anywhere in the world."}]}}, {"id": "mini", "title": "小型常設アトラクション", "kind": "アトラクション", "role": "企画", "short": "小さな場所に置ける、常設のアトラクション", "text": "小さな場所に常設できるアトラクションを企画しています。くわしい内容は、これから公開します。", "tags": ["アトラクション", "常設"], "en": {"title": "Compact Permanent Attraction", "kind": "Attraction", "role": "Concept", "short": "A permanent attraction that fits in a small space", "text": "I’m planning an attraction that can be installed permanently in a small space. More details are coming soon.", "tags": ["Attraction", "Permanent"]}}], "answers": {"home": {"ja": ["大阪を拠点に活動しています。"], "en": ["I’m based in Osaka, Japan."]}, "school": {"ja": ["N高等学校に通っています。"], "en": ["I go to N High School."]}, "univ": {"ja": ["大阪芸術大学に進学予定です。"], "en": ["I’m planning to go to Osaka University of Arts."]}, "nickname": {"ja": ["「ビーバー」は、私のニックネームです。"], "en": ["“Beaver” is my nickname."]}, "hobby": {"ja": ["趣味は、テーマパークに行くこと、ギター、ピアノです。"], "en": ["My hobbies are going to theme parks, guitar, and piano."]}, "personality": {"ja": ["思いついたら、すぐ形にしたくなる性格です。"], "en": ["Once I think of something, I want to make it real right away."]}, "food": {"ja": ["好きな食べ物は、ピザです。"], "en": ["My favorite food is pizza."]}, "english": {"ja": ["英語は、いま練習中です。", "外国の人と話すのが好きです。"], "en": ["I’m practicing English right now.", "I love talking with people from other countries."]}, "how": {"ja": ["思いついたアイデアを、AIを使って形にしています。"], "en": ["I take ideas I come up with and turn them into real things using AI."]}, "team": {"ja": ["半々くらいです。", "1人でつくることもあるし、学校のイベントや課外活動では、みんなでつくります。"], "en": ["About half and half.", "Sometimes I make things alone, and for school events and extracurricular programs, I make them with everyone."]}, "idea": {"ja": ["じつは、自分でもよくわからないんです。", "ふとしたときに思いつきます。"], "en": ["Honestly, I’m not sure myself.", "They just come to me out of nowhere."]}, "value": {"ja": ["「自分がゲストだったら楽しいか」を、いつも考えています。", "ゲストがその世界観に没入できるように、サイトも細部までこだわってつくっています。"], "en": ["I always ask myself: “Would this be fun if I were the guest?”", "So that guests can sink into the world, I care about every small detail, even on my websites."]}, "park": {"ja": ["いちばん好きなテーマパークは、ユニバ(USJ)です。小学2年生のときに初めて行って、めちゃめちゃハマりました。", "いつか、テーマパークのショーやアトラクションをつくる側に立ちたいと思っています。来た人が「日常」を忘れられるような体験をつくるのが目標です。"], "en": ["My favorite theme park is Universal Studios Japan (USJ). I went there for the first time in 2nd grade and got completely hooked.", "Someday I want to be on the side that creates the shows and attractions. My goal is to make experiences that let people forget their everyday life."]}, "ride": {"ja": ["好きなアトラクションは、ユニバの「スペース・ファンタジー・ザ・ライド」です。"], "en": ["My favorite attraction is “Space Fantasy – The Ride” at Universal Studios Japan."]}, "show": {"ja": ["キャラクターがメインのショーより、人がメインのショーが好きです。", "パレードは、どれも全部好きです。"], "en": ["I like shows where people are the stars more than shows centered on characters.", "And parades — I love every single one."]}, "career": {"ja": ["USJのような、テーマパークの会社でショーやアトラクションをつくりたいです。"], "en": ["I want to create shows and attractions at a theme park company like USJ."]}, "ent": {"ja": ["イマーシブシアターや、とにかくクレイジーなものが好きです。"], "en": ["Immersive theater, and anything that’s totally crazy."]}, "immersive": {"ja": ["見るだけではなく、その世界の中に入って参加する体験のことです。", "私がつくりたいのも、こういう体験です。"], "en": ["It means an experience where you don’t just watch — you step inside that world and take part.", "That’s exactly the kind of experience I want to make."]}, "music": {"ja": ["ギターとピアノを弾きます。ピアノは9年ほど続けています。", "音楽は、ショーやアトラクションの演出を考えるときの感覚の土台にもなっています。"], "en": ["I play guitar and piano. I’ve been playing piano for about 9 years.", "Music is also the base of my sense for staging when I think about shows and attractions."]}, "site": {"ja": ["このポートフォリオは、AIと話しながら作品を見られるようにつくりました。見るだけではなく、体験してもらいたかったからです。", "じつは、このページのどこかに、ちょっとしたイベントもかくれています。よかったら探してみてください。"], "en": ["I made this portfolio so you can see my work while chatting with an AI. I wanted you to experience it, not just look at it.", "Actually, there’s a little event hidden somewhere on this page. Try to find it if you like."]}, "job": {"ja": ["はい、内容によってお受けできます。まずはお問い合わせからご連絡ください。"], "en": ["Yes, depending on the project. Please reach out through Contact first."]}, "web": {"ja": ["はい、つくれます。お問い合わせからご相談ください。"], "en": ["Yes, I can. Feel free to ask through Contact."]}, "collab": {"ja": ["うれしいです!お問い合わせから気軽に声をかけてください。"], "en": ["That would make me happy! Feel free to reach out through Contact."]}}, "quickHero": {"ja": "テーマパークのショーやアトラクションのような体験をつくっています。アイデアを考えるだけで終わらせず、Webや映像で実際に動く形にするところまで自分でやります。", "en": "I create experiences like theme park shows and attractions. I don’t stop at ideas — I build them into things that actually work, on the web and on film, by myself."}, "game": {"teams": {"a": {"ja": "ビーバーチーム", "en": "Team Beaver", "color": "#e8743b"}, "b": {"ja": "ユウトチーム", "en": "Team Yuto", "color": "#3b7de8"}}, "games": [{"id": "parade", "type": "permanent", "show": true, "start": "", "end": "", "max": 300, "title": {"ja": "迷子のおしらせパレード", "en": "The Lost Child Parade"}, "desc": {"ja": "フロートのモニターに映った迷子の子を、人ごみの中から見つけるゲーム。", "en": "Find the lost kid shown on the parade float’s screen in the crowd."}}]}}</script>
 <script>
 (async function(){
 /* ===== サイトの中身(管理サイトで編集したもの)を読みこむ ===== */
@@ -516,6 +559,7 @@ async function loadContent(){
   return DEFAULT_CONTENT;
 }
 var CONTENT=await loadContent();
+if(CONTENT.dock&&!CONTENT.dock.some(function(d){return d.q==='game'}))CONTENT.dock=CONTENT.dock.concat([{q:'game',ja:'ゲーム',en:'Games',show:true}]);
 var FLOAT_IMG='/img/float.webp';
 var MEMORU_IMG='/img/memoru.jpg';
 var TH_QUNASYS='/img/qunasys.jpg';
@@ -935,6 +979,7 @@ var R={
     return[pick(['ごめんなさい、その質問にはまだ答えを用意できていませんでした。','いい質問ですね。でも、私はまだそこまで知らないんです。','うーん、それはまだ勉強中です。']),'かわりに「'+tip[0]+'」なら話せますよ。下のボタンから聞いてみてください。'];
   }
 };
+R.game=function(){openGame();return['ゲームを開きました。チームで点数を競おう!']};
 var R_EN={
   works:function(){return['Here are the works I’d like to show you. Spin left or right, and tap the one in the middle to see more.',makeWheel()]},
   about:function(){return[photo(ABOUT_IMG,'Hayashi Yuto from behind, arms spread wide at a theme park at night'),'I’m Hayashi Yuto. I create experiences in Osaka, Japan. My goal is to make theme park shows and attractions.','I don’t stop at ideas — I build them into things that actually work, on the web and on film, by myself.',rows([['Name','Hayashi Yuto / 林 勇斗'],['Born','August 13, 2008'],['Based in','Osaka, Japan'],['Goal','Creating theme park shows & attractions'],['Loves','Theme parks, guitar, piano']])]},
@@ -983,6 +1028,7 @@ var R_EN={
   }
 };
 /* 短縮版と会話で共通のデータ */
+R_EN.game=function(){openGame();return['The game is open. Compete with your team!']};
 /* 管理サイトで編集した答えを使う */
 (function(){
   var EXTRA={job:1,web:1,collab:1};
@@ -1032,6 +1078,7 @@ var TALK=[
 var KEYS=[
  [/何歳|なんさい|年齢|誕生日|生まれ|いくつ/i,'age'],
  [/このサイト|このページ|ポートフォリオ|なんで.*(ai|会話)/i,'site'],
+ [/ゲーム(を|が)?(したい|やりたい|あそ|遊|する)|ゲームある|^ゲーム$/i,'game'],
  [/360|浮島|うきしま|アイランド/i,'dreampark'],
  [/(つくりたい|作りたい|夢の|理想の|将来の)(テーマ)?パーク|パーク.*(つくりたい|作りたい)/i,'dreampark'],
  [/自信|推し|一番の作品|いちばんの作品|代表作|おすすめ.*作品|お気に入り.*作品|見てほしい|一番好きな作品/i,'best'],
@@ -1071,6 +1118,7 @@ var KEYS=[
  /* English */
  [/how old|\bage\b|birthday|\bborn\b/i,'age'],
  [/this (site|page|website)|portfolio/i,'site'],
+ [/play (a )?game|want to play|any games/i,'game'],
  [/360|island/i,'dreampark'],
  [/dream park|park you want to (build|make|create)|(build|make|create) (a |your own )?(theme )?park|future park/i,'dreampark'],
  [/proud|best (work|project|piece)|favou?rite (work|project)/i,'best'],
@@ -1202,6 +1250,10 @@ var SECRETS=[
     await toTop();
     helloQ=helloQ.then(retypeName);await helloQ;
     return T(['バレましたね。','みんなからは「ビーバー」と呼ばれています。'],['You caught me.','Everyone calls me “Beaver.”']);
+  }},
+  {match:/^(play|プレイ|ぷれい)$/, run:function(){
+    openGame();
+    return[T('ゲームを開きました。チームで点数を競おう!','The game is open. Compete with your team!')];
   }},
   {match:/times_/, run:function(){
     return[T('見つけましたね。私のtimesチャンネルです。','You found it. This is my “times” channel.'),
@@ -1539,7 +1591,7 @@ function runTimer(ms,my,onEnd){
   pd.penalty=function(x){t0-=x};
   (function f(now){
     if(my!==pd.run)return;
-    var r=Math.max(0,1-(now-t0)/left);pd.bar.style.transform='scaleX('+r+')';
+    var r=Math.max(0,1-(now-t0)/left);pd.ratio=r;pd.bar.style.transform='scaleX('+r+')';
     if(r<=0){stopTimer();onEnd();return}
     pd.raf=requestAnimationFrame(f);
   })(t0);
@@ -1560,23 +1612,34 @@ async function pdRound(r,my){
     var done=false,targetEl;
     var els=layoutCrowd(R.list,function(c,b){
       if(done||my!==pd.run)return;
-      if(c===R.target){done=true;stopTimer();b.classList.add('hit');pd.banner.innerHTML=T('見つけた!','Found them!');pdWait(1300,my).then(function(){res(true)},rej)}
+      if(c===R.target){done=true;stopTimer();pd.score+=50+Math.round((pd.ratio||0)*50);b.classList.add('hit');pd.banner.innerHTML=T('見つけた!','Found them!');pdWait(1300,my).then(function(){res(true)},rej)}
       else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');pdToast(T('ちがう子みたい','Not that one'));pd.penalty&&pd.penalty(1500)}
     });
     targetEl=els[R.list.indexOf(R.target)];
     runTimer(R.cfg.time,my,function(){if(done)return;done=true;targetEl.classList.add('show');pd.banner.innerHTML=T('時間切れ…<small>迷子の子はここにいました</small>','Time’s up…<small>The lost kid was right here</small>');pdWait(1800,my).then(function(){res(false)},rej)});
   });
 }
+function pdEnd(){
+  /* ゲームのホーム画面から遊んだときは、点数をチームに入れる */
+  if(!pd.onScore)return '';
+  var sc=pd.score,f=pd.onScore;pd.onScore=null;f(sc);
+  return '<p class="pd-res">+'+sc+T('点','pts')+'</p>';
+}
+function pdButtons(){
+  return '<div class="row"><button class="pd-btn main" type="button" data-pd="'+(pd.hub?'hub':'start')+'">'+(pd.hub?T('ホームにもどる','Back to home'):T('もう一度','Try again'))+'</button>'+(pd.hub?'':'<button class="pd-btn" type="button" data-pd="close">'+T('もどる','Back')+'</button>')+'</div>';
+}
 async function pdGame(){
-  var my=++pd.run;
+  var my=++pd.run;pd.score=0;
   try{
     for(var r=0;r<3;r++){
       var ok=await pdRound(r,my);
-      if(!ok){pdCard(T('<h2>おしかった!</h2><p>迷子の子は、パークのどこかでまだ待っています。</p>','<h2>So close!</h2><p>The lost kid is still waiting somewhere in the park.</p>')+'<div class="row"><button class="pd-btn main" type="button" data-pd="start">'+T('もう一度','Try again')+'</button><button class="pd-btn" type="button" data-pd="close">'+T('もどる','Back')+'</button></div>');return}
+      if(!ok){if(pd.hub){pdCard(T('<h2>おしかった!</h2>','<h2>So close!</h2>')+pdEnd()+'<p>'+T('迷子の子は、パークのどこかでまだ待っています。','The lost kid is still waiting somewhere in the park.')+'</p>'+pdButtons());return}
+        pdCard(T('<h2>おしかった!</h2><p>迷子の子は、パークのどこかでまだ待っています。</p>','<h2>So close!</h2><p>The lost kid is still waiting somewhere in the park.</p>')+'<div class="row"><button class="pd-btn main" type="button" data-pd="start">'+T('もう一度','Try again')+'</button><button class="pd-btn" type="button" data-pd="close">'+T('もどる','Back')+'</button></div>');return}
     }
     pd.banner.innerHTML='';pd.round.textContent='';
     pd.crowd.classList.add('cheer');fireworks(my);
     await pdWait(1600,my);
+    if(pd.hub){pdCard(T('<h2>迷子の子、<br>全員見つかりました!</h2>','<h2>Every lost kid<br>has been found!</h2>')+pdEnd()+pdButtons());return}
     pdCard(T('<h2>迷子の子、<br>全員見つかりました!</h2><p>パレードは、まだまだ続きます。</p>','<h2>Every lost kid<br>has been found!</h2><p>And the parade goes on.</p>')+'<div class="row"><button class="pd-btn main" type="button" data-pd="start">'+T('もう一度あそぶ','Play again')+'</button><button class="pd-btn" type="button" data-pd="close">'+T('もどる','Back')+'</button></div>');
   }catch(e){}
 }
@@ -1599,13 +1662,16 @@ function pdStartScreen(){
   if(pd.anim)pd.anim.cancel();
   pdCard('<p style="color:var(--n-gold);letter-spacing:.2em;font-size:.78rem">SECRET EVENT</p>'+T('<h2>迷子のおしらせパレード</h2><p>パレードのフロートのモニターに、迷子の子が映ります。フロートが通りすぎたら、人ごみの中からその子をタップして見つけてあげてください。全部で3回です。</p>','<h2>The Lost Child Parade</h2><p>A lost kid appears on the screen of the parade float. After the float passes, find that kid in the crowd and tap them. There are 3 rounds.</p>')+'<div class="row"><button class="pd-btn main" type="button" data-pd="start">'+T('スタート','Start')+'</button></div>');
 }
-function openParade(){
+function openParade(onScore){
+  pd.onScore=onScore||null;pd.hub=!!onScore;
   input.blur();pd.el.hidden=false;document.documentElement.style.overflow='hidden';pdStartScreen();
 }
 function closeParade(){
   ++pd.run;stopTimer();if(pd.anim)pd.anim.cancel();
   var g=pd.fx.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,pd.fx.width,pd.fx.height);
-  pd.el.hidden=true;document.documentElement.style.overflow='';
+  pd.el.hidden=true;
+  if(pd.hub){pd.hub=false;pd.onScore=null;if(window.__ghRefresh)window.__ghRefresh()}
+  else document.documentElement.style.overflow='';
 }
 pd.card.addEventListener('click',function(e){
   var b=e.target.closest('[data-pd]');if(!b)return;
@@ -1613,6 +1679,104 @@ pd.card.addEventListener('click',function(e){
 });
 document.getElementById('pdClose').addEventListener('click',closeParade);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pd.el.hidden)closeParade()});
+
+/* ===== ゲーム(チーム対抗) =====
+   入口:入力欄に「play」/ 下の「ゲーム」ボタン。
+   チームは、この端末で最初にえらんだら、ずっとそのまま(ブラウザに保存)。
+   点数は Netlify Functions(/api/game)に保存して、みんなで共有する。 */
+var GAME_DEFAULT={teams:{a:{ja:'ビーバーチーム',en:'Team Beaver',color:'#e8743b'},b:{ja:'ユウトチーム',en:'Team Yuto',color:'#3b7de8'}},
+  games:[{id:'parade',type:'permanent',show:true,start:'',end:'',max:300,title:{ja:'迷子のおしらせパレード',en:'The Lost Child Parade'},desc:{ja:'フロートのモニターに映った迷子の子を、人ごみの中から見つけるゲーム。',en:'Find the lost kid shown on the parade float’s screen in the crowd.'}}]};
+var GAME=CONTENT.game||GAME_DEFAULT;
+/* ゲームの中身(エンジン)。新しいゲームはここに足す */
+var GAME_ENGINES={parade:function(onScore){openParade(onScore)}};
+var gh=document.getElementById('gh'),ghIn=document.getElementById('ghIn'),ghScores=null;
+function TL(o){return o?(LANG==='en'?(o.en||o.ja):(o.ja||o.en))||'':''}
+function myTeam(){try{var t=localStorage.getItem('yh-team');return t==='a'||t==='b'?t:null}catch(e){return window.__team||null}}
+function setTeam(t){window.__team=t;try{localStorage.setItem('yh-team',t)}catch(e){}}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function gameActive(g){if(g.show===false||!GAME_ENGINES[g.engine||g.id])return false;if(g.type!=='limited')return true;var t=today();return (!g.start||g.start<=t)&&(!g.end||t<=g.end)}
+async function fetchScores(){
+  try{var r=await fetch('/api/game',{cache:'no-store'});if(r.ok){ghScores=await r.json();return}}catch(e){}
+  ghScores=ghScores||{total:{a:0,b:0},games:{}};
+}
+async function sendScore(gameId,score){
+  var t=myTeam();if(!t||!(score>0))return;
+  try{
+    var r=await fetch('/api/game/score',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({team:t,game:gameId,score:score})});
+    var j=await r.json().catch(function(){return null});
+    if(r.ok&&j&&j.total)ghScores=j;
+  }catch(e){}
+}
+function teamName(t){return TL(GAME.teams&&GAME.teams[t])}
+function teamColor(t){return (GAME.teams&&GAME.teams[t]&&GAME.teams[t].color)||(t==='a'?'#e8743b':'#3b7de8')}
+function ghDrawPick(){
+  ghIn.innerHTML='';
+  var top=el('div','gh-top','<span class="lb">GAME</span>');var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;top.appendChild(x);ghIn.appendChild(top);
+  ghIn.appendChild(el('h2',null,esc(T('どっちのチームに入る？','Which team will you join?'))));
+  ghIn.appendChild(el('p',null,esc(T('ゲームの点数は、チームの点数になります。一度えらぶと、この端末ではずっとそのチームです。','Your game scores go to your team. Once you choose, this device stays on that team for good.'))));
+  var pk=el('div','gh-pick');
+  ['a','b'].forEach(function(t){
+    var b=el('button','gh-team','<i></i><b>'+esc(teamName(t))+'</b><span>'+esc(T('このチームに入る','Join this team'))+'</span>');b.type='button';b.style.setProperty('--c',teamColor(t));
+    b.onclick=function(){
+      if(!confirm(T(teamName(t)+'に入りますか？\nこのあと、チームは変えられません。','Join '+teamName(t)+'?\nYou can’t change teams later.')))return;
+      setTeam(t);ghDraw();
+    };
+    pk.appendChild(b);
+  });
+  ghIn.appendChild(pk);
+}
+function ghDraw(){
+  if(!myTeam())return ghDrawPick();
+  var me=myTeam(),sc=ghScores||{total:{a:0,b:0},games:{}},ta=(sc.total&&sc.total.a)||0,tb=(sc.total&&sc.total.b)||0;
+  ghIn.innerHTML='';
+  var top=el('div','gh-top','<span class="lb">GAME</span>');
+  var my=el('span','gh-my','<i style="background:'+esc(teamColor(me))+'"></i>'+esc(teamName(me)));top.appendChild(my);
+  var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;top.appendChild(x);ghIn.appendChild(top);
+  /* チームの点数 */
+  var bd=el('div','gh-board');
+  bd.appendChild(el('div','gh-vs','<div class="t"><span>'+esc(teamName('a'))+'</span><b style="color:'+esc(teamColor('a'))+'">'+ta.toLocaleString()+'</b></div><div class="v">VS</div><div class="t"><span>'+esc(teamName('b'))+'</span><b style="color:'+esc(teamColor('b'))+'">'+tb.toLocaleString()+'</b></div>'));
+  var bar=el('div','gh-bar'),pa=(ta+tb)?ta/(ta+tb)*100:50;
+  bar.innerHTML='<i style="width:'+pa+'%;background:'+esc(teamColor('a'))+'"></i><i style="width:'+(100-pa)+'%;background:'+esc(teamColor('b'))+'"></i>';
+  bd.appendChild(bar);ghIn.appendChild(bd);
+  /* ゲームの一覧 */
+  var list=(GAME.games||[]).filter(gameActive);
+  [['limited',T('期間限定','LIMITED TIME')],['permanent',T('いつでも遊べる','ALWAYS OPEN')]].forEach(function(sec){
+    var s=el('section','gh-sec');s.appendChild(el('h3',null,esc(sec[1])));
+    var gs=list.filter(function(g){return (g.type==='limited')===(sec[0]==='limited')});
+    if(!gs.length)s.appendChild(el('div','gh-empty',esc(sec[0]==='limited'?T('今は、期間限定のゲームはありません。','No limited-time games right now.'):T('今は、遊べるゲームがありません。','No games available right now.'))));
+    gs.forEach(function(g){
+      var c=el('div','gh-card'+(g.type==='limited'?' ltd':''));
+      if(g.type==='limited'&&g.end){var e=g.end.split('-');c.appendChild(el('span','until',esc(T(Number(e[1])+'月'+Number(e[2])+'日まで','Until '+Number(e[1])+'/'+Number(e[2])))))}
+      c.appendChild(el('h4',null,esc(TL(g.title))));
+      if(TL(g.desc))c.appendChild(el('p',null,esc(TL(g.desc))));
+      var gsc=(sc.games&&sc.games[g.id])||{};
+      c.appendChild(el('div','mini','<span>'+esc(teamName('a'))+' <b>'+((gsc.a||0).toLocaleString())+'</b></span><span>'+esc(teamName('b'))+' <b>'+((gsc.b||0).toLocaleString())+'</b></span>'));
+      var b=el('button','gh-btn',esc(T('あそぶ','Play')));b.type='button';
+      b.onclick=function(){
+        var eng=GAME_ENGINES[g.engine||g.id];if(!eng)return;
+        eng(function(score){
+          var max=Number(g.max)||300;score=Math.max(0,Math.min(max,Math.round(score||0)));
+          if(score>0)sendScore(g.id,score);
+        });
+      };
+      c.appendChild(b);s.appendChild(c);
+    });
+    ghIn.appendChild(s);
+  });
+  ghIn.appendChild(el('p','gh-note',esc(T('チームは、この端末のブラウザに保存されています。','Your team is saved in this device’s browser.'))));
+}
+async function openGame(){
+  input.blur();
+  gh.hidden=false;document.documentElement.style.overflow='hidden';
+  requestAnimationFrame(function(){gh.classList.add('open')});
+  ghDraw();await fetchScores();if(!gh.hidden)ghDraw();
+}
+function closeGame(){
+  gh.classList.remove('open');document.documentElement.style.overflow='';
+  setTimeout(function(){gh.hidden=true},reduce?0:350);
+}
+window.__ghRefresh=async function(){ghDraw();await new Promise(function(r){setTimeout(r,600)});await fetchScores();if(!gh.hidden)ghDraw()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!gh.hidden&&pd.el.hidden)closeGame()});
 
 /* ===== 作品の半円ホイール =====
    ドラッグ・スワイプ・矢印・キーボードで回せる。真ん中の作品の説明を下に出す。
@@ -1717,7 +1881,7 @@ function makeWheel(items,prefix){
     })();
   }
   function go(t){target=t;animate()}
-  function open(k){var w=list[k];if(w.phantom){if(PH_LIT)openParade();return}ask(aboutWork(w),prefix+w.id)}
+  function open(k){var w=list[k];if(w.phantom){if(PH_LIT)openGame();return}ask(aboutWork(w),prefix+w.id)}
   /* ドラッグで回す */
   var drag=null;
   stage.addEventListener('pointerdown',function(e){
