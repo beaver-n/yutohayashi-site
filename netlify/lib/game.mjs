@@ -1,7 +1,12 @@
 // ゲームの点数を保存するところ(Netlify Blobs)
 import { getStore } from '@netlify/blobs';
 
-export const DEFAULT_GAMES = [{ id: 'parade', type: 'permanent', show: true, max: 300 }];
+export const DEFAULT_GAMES = [
+  { id: 'scare', type: 'limited', show: true, start: '2026-10-01', end: '2026-10-31', max: 300 },
+  { id: 'lights', type: 'permanent', show: true, max: 300 },
+  { id: 'queue', type: 'permanent', show: true, max: 300 },
+  { id: 'parade', type: 'permanent', show: true, max: 300 }
+];
 
 export function scoreStore() {
   return getStore({ name: 'game', consistency: 'strong' });
@@ -18,8 +23,13 @@ export async function readScores(store) {
 // 管理サイトで保存したゲームの設定(なければ最初の設定)
 export async function readGames() {
   const c = await getStore({ name: 'portfolio', consistency: 'strong' }).get('content', { type: 'json' });
-  const g = c && c.game && Array.isArray(c.game.games) ? c.game.games : null;
-  return g || DEFAULT_GAMES;
+  const g = c && c.game && Array.isArray(c.game.games) ? c.game.games.slice() : [];
+  const removed = c && c.game && Array.isArray(c.game.removed) ? c.game.removed : [];
+  // 新しく足したゲームは、管理サイトで「削除」していなければ自動で入る
+  for (const d of DEFAULT_GAMES) {
+    if (!g.some((x) => x && x.id === d.id) && !removed.includes(d.id)) g.push(d);
+  }
+  return g;
 }
 
 export function today() {

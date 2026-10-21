@@ -444,10 +444,12 @@ function zoomPicker(src,s){
 
 /* ---------- ゲーム ---------- */
 /* 今あるゲームの中身(プログラム)。新しいゲームができたら、ここに足す */
-var ENGINES=[{id:'parade',name:'迷子のおしらせパレード'}];
+var ENGINES=[{id:'scare',name:'おどかし役になれ'},{id:'lights',name:'ショーの照明オペレーター'},{id:'queue',name:'待ち時間をさばけ!'},{id:'parade',name:'迷子のおしらせパレード'}];
 function panelGame(p){
   var G=data.game=data.game||clone(DEF.game||{teams:{a:{},b:{}},games:[]});
-  G.teams=G.teams||{};G.teams.a=G.teams.a||{};G.teams.b=G.teams.b||{};G.games=G.games||[];
+  G.teams=G.teams||{};G.teams.a=G.teams.a||{};G.teams.b=G.teams.b||{};G.games=G.games||[];G.removed=G.removed||[];
+  /* 新しく足されたゲームを一覧に入れる(削除したものはのぞく) */
+  ((DEF.game&&DEF.game.games)||[]).forEach(function(d){if(!G.games.some(function(x){return x.id===d.id})&&G.removed.indexOf(d.id)<0)G.games.push(clone(d))});
   p.classList.add('gpanel');
   p.appendChild(h('h2',{text:'B-Play'}));
   p.appendChild(h('p',{class:'lead',text:'入力欄に「play」と打つか、下の「B-Play」ボタンで開くゲームです。見る人は最初に2つのチームのどちらかをえらび、ゲームの点数がそのチームに入ります。'}));
@@ -516,13 +518,13 @@ function panelGame(p){
     m.appendChild(det);
     li.appendChild(m);
     acts.insertBefore(check(' 出す',g.show!==false,function(v){g.show=v;li.classList.toggle('off',!v)}),acts.firstChild);
-    acts.appendChild(h('button',{class:'btn sm danger',type:'button',text:'削除',onclick:function(){if(!confirm('このゲームを一覧から消しますか？(点数は残ります)'))return;G.games.splice(i,1);markDirty();rerender()}}));
+    acts.appendChild(h('button',{class:'btn sm danger',type:'button',text:'削除',onclick:function(){if(!confirm('このゲームを一覧から消しますか？(点数は残ります)'))return;if(G.removed.indexOf(g.id)<0)G.removed.push(g.id);G.games.splice(i,1);markDirty();rerender()}}));
     li.appendChild(acts);
   },{isOff:function(g){return g.show===false}}));
   var free=ENGINES.filter(function(e){return !G.games.some(function(g){return (g.engine||g.id)===e.id})});
   if(free.length){
     var ss=h('select',{},free.map(function(e){return h('option',{value:e.id,text:e.name})}));
-    p.appendChild(h('div',{class:'addg'},[ss,h('button',{class:'btn',type:'button',text:'＋ ゲームを追加',onclick:function(){var e=ENGINES.find(function(x){return x.id===ss.value});G.games.push({id:e.id,type:'permanent',show:true,start:'',end:'',max:300,title:{ja:e.name,en:''},desc:{ja:'',en:''}});markDirty();rerender()}})]));
+    p.appendChild(h('div',{class:'addg'},[ss,h('button',{class:'btn',type:'button',text:'＋ ゲームを追加',onclick:function(){var e=ENGINES.find(function(x){return x.id===ss.value});G.removed=G.removed.filter(function(x){return x!==e.id});var d0=((DEF.game&&DEF.game.games)||[]).find(function(x){return x.id===e.id});if(d0){G.games.push(clone(d0));markDirty();rerender();return}G.games.push({id:e.id,type:'permanent',show:true,start:'',end:'',max:300,title:{ja:e.name,en:''},desc:{ja:'',en:''}});markDirty();rerender()}})]));
   }else p.appendChild(h('p',{class:'hint',text:'今あるゲームは、全部一覧に入っています。新しいゲームの中身ができると、ここから追加できるようになります。'}));
 }
 
