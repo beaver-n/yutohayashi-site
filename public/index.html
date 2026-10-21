@@ -1730,7 +1730,7 @@ function teamColor(t){return (GAME.teams&&GAME.teams[t]&&GAME.teams[t].color)||(
 function ghShell(){
   ghIn.innerHTML='';
   var hero=el('div','gh-hero');
-  var lg=new Image();lg.src=GAME.logo||'/img/bplay.webp';lg.alt='B-Play';hero.appendChild(lg);
+  var lg=new Image();lg.src=(GAME.logo&&GAME.logo!=='/img/bplay.webp'?GAME.logo:'/img/bplay.webp?v=2');lg.alt='B-Play';hero.appendChild(lg);
   var x=el('button','gh-x','×');x.type='button';x.setAttribute('aria-label',T('とじる','Close'));x.onclick=closeGame;hero.appendChild(x);
   var me=myTeam();
   if(me)hero.appendChild(el('span','gh-my','<i style="background:'+esc(teamColor(me))+'"></i>'+esc(teamName(me))));
