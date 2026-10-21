@@ -302,6 +302,7 @@ function projectList(p,key,label){
     acts.appendChild(h('button',{class:'btn sm',type:'button',text:'編集',onclick:function(){openEditor(key,i)}}));
     acts.appendChild(h('button',{class:'btn sm danger',type:'button',text:'削除',onclick:function(){
       if(!confirm('「'+(w.title||'この'+label)+'」を削除しますか？\n(保存するまでは、サイトには反映されません)'))return;
+      if(key==='works'&&NEW_WORKS.indexOf(w.id)>=0){data.worksRemoved=data.worksRemoved||[];if(data.worksRemoved.indexOf(w.id)<0)data.worksRemoved.push(w.id)}
       arr.splice(i,1);markDirty();rerender();toast('削除しました。保存すると反映されます');
     }}));
     li.appendChild(acts);
@@ -686,6 +687,8 @@ window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();
 
 /* ---------- 読みこみ ---------- */
 var DEF=null;
+/* あとから足した作品(前の保存内容にも自動で入れる) */
+var NEW_WORKS=['bplay'];
 function fill(c){var o={};for(var k in DEF)o[k]=DEF[k];for(var k2 in c)o[k2]=c[k2];return clone(o)}
 (async function(){
   try{
@@ -696,6 +699,7 @@ function fill(c){var o={};for(var k in DEF)o[k]=DEF[k];for(var k2 in c)o[k2]=c[k
     if(!r.ok)throw new Error('読みこめませんでした('+r.status+')');
     var j=await r.json();
     data=fill(j.content||DEF);
+    NEW_WORKS.forEach(function(id){var ws=data.works||[],rm=data.worksRemoved||[];if(ws.some(function(w){return w.id===id})||rm.indexOf(id)>=0)return;var d=(DEF.works||[]).find(function(w){return w.id===id});if(d)data.works=[clone(d)].concat(ws)});
     markClean(j.content?'保存済み':'まだ一度も保存していません(最初の内容を表示中)');
     drawTabs();rerender();
   }catch(e){main.innerHTML='';main.appendChild(h('p',{class:'loading',text:e.message}))}
