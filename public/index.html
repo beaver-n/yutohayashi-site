@@ -1149,7 +1149,7 @@ var R_EN={
   }
 };
 /* 短縮版と会話で共通のデータ */
-R_EN.game=function(){openGame();return['The game is open. Compete with your team!']};
+R_EN.game=function(){openGame();return['B-Play is open. Compete with your team!']};
 /* 管理サイトで編集した答えを使う */
 (function(){
   var EXTRA={job:1,web:1,collab:1};
@@ -1185,6 +1185,7 @@ function replyIn(key){
     var fb=workBlocks(fw);if(fw.more)fb.push(rows([[W(fw,'title'),T('くわしく見る ↗','See more ↗'),fw.more]],true));
     return withMain(fb,[[T('次へ:','Next: ')+fnt,'f:'+fn.id,aboutWork(fn),'<span class="pc">'+T('次へ →','Next →')+'</span><span class="sp">'+T('次へ:','Next: ')+esc(fnt)+'</span>']])}
   if(key.indexOf('w:')===0&&!BY[key.slice(2)])return R.unknown();
+  if(key.indexOf('w:')===0&&BY[key.slice(2)].link==='#bplay'){unknownStreak=0;return (LANG==='en'?R_EN:R).game()}
   if(key.indexOf('w:')===0){unknownStreak=0;var w=BY[key.slice(2)],n=nextOf(w.id),nt=W(n,'title');return withMain(workBlocks(w),[[T('次の作品:','Next: ')+nt,'w:'+n.id,aboutWork(n),'<span class="pc">'+T('次の作品へ →','Next work →')+'</span><span class="sp">'+T('次の作品:','Next: ')+esc(nt)+'</span>']])}
   if(!R[key]||key==='unknown')return R.unknown();
   unknownStreak=0;
@@ -1552,7 +1553,7 @@ function buildQuick(){
       c.appendChild(th);
       c.appendChild(el('span','k',esc(W(w,'kind'))+(!isFuture&&W(w,'role')?' / '+esc(W(w,'role')):'')));
       c.appendChild(el('h3',null,esc(W(w,'title'))+(w.badge?'<span class="badge">'+esc(W(w,'badge'))+'</span>':'')));
-      c.appendChild(el('p',null,esc(W(w,'text'))));
+      if(w.link!=='#bplay')c.appendChild(el('p',null,esc(W(w,'text'))));
       var url=w.link||w.more||(w.embed?driveView(w.embed):null);
       if(url&&url==='#bplay'){var a=el('a','more',T('B-Playであそぶ →','Play B-Play →'));a.href=url;c.appendChild(a)}
       else if(url){var a=el('a','more',w.link?T('サイトを見る ↗','Visit site ↗'):w.more?T('くわしく見る ↗','See more ↗'):T('資料を見る ↗','View slides ↗'));a.href=url;a.target='_blank';a.rel='noopener';c.appendChild(a)}
@@ -2255,8 +2256,9 @@ function makeWheel(items,prefix){
         desc.innerHTML='<span class="k">???</span><b>……</b><p>'+esc(T('ここには、何もないみたいです。','Nothing seems to be here.'))+'</p>';
         desc.classList.remove('fade');return;
       }
-      desc.innerHTML='<span class="k">'+esc(W(w,'kind'))+'</span><b>'+esc(W(w,'title'))+'</b><p>'+esc(W(w,'short')||'')+'</p>';
-      var g=el('button','go2',w.phantom?T('タップして遊ぶ','Tap to play'):T('タップしてくわしく見る','Tap for details'));g.type='button';
+      var play=w.phantom||w.link==='#bplay';
+      desc.innerHTML='<span class="k">'+esc(W(w,'kind'))+'</span><b>'+esc(W(w,'title'))+'</b>'+(w.link==='#bplay'?'':'<p>'+esc(W(w,'short')||'')+'</p>');
+      var g=el('button','go2',play?T('タップして遊ぶ','Tap to play'):T('タップしてくわしく見る','Tap for details'));g.type='button';
       g.addEventListener('click',function(){open(k)});desc.appendChild(g);
       desc.classList.remove('fade');
     },reduce?0:140);
@@ -2270,7 +2272,7 @@ function makeWheel(items,prefix){
     })();
   }
   function go(t){target=t;animate()}
-  function open(k){var w=list[k];if(w.phantom){if(PH_LIT)openGame();return}ask(aboutWork(w),prefix+w.id)}
+  function open(k){var w=list[k];if(w.link==='#bplay'){openGame();return}if(w.phantom){if(PH_LIT)openGame();return}ask(aboutWork(w),prefix+w.id)}
   /* ドラッグで回す */
   var drag=null;
   stage.addEventListener('pointerdown',function(e){
