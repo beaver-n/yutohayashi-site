@@ -335,7 +335,7 @@ button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 }
 /* ===== 最初のオープニング:将来つくりたいパーク ===== */
 .pk{position:fixed;inset:0;z-index:950;background:#fff;overflow:hidden;cursor:pointer;transition:opacity .8s ease,visibility 0s linear .8s}
-.pk img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.6);filter:blur(10px);will-change:transform,opacity,filter}
+.pk img{position:absolute;left:calc((100% - var(--pk-pc,60%)) / 2);top:calc((100% - var(--pk-pc,60%)) / 2);width:var(--pk-pc,60%);height:var(--pk-pc,60%);object-fit:contain;opacity:0;transform:scale(1.6);filter:blur(10px);will-change:transform,opacity,filter}
 .pk.go img{animation:pkIn 5.2s cubic-bezier(.16,.7,.2,1) forwards}
 @keyframes pkIn{0%{opacity:0;transform:scale(1.6);filter:blur(10px)}22%{opacity:1;filter:blur(0)}100%{opacity:1;transform:scale(1.02);filter:blur(0)}}
 .pk-cap{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 7vh);transform:translate(-50%,12px);margin:0;width:max-content;max-width:calc(100vw - 32px);text-align:center;
@@ -346,7 +346,7 @@ button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 @media (max-aspect-ratio:1/1){
   /* スマホ:全体が見えるように、まんなかに絵、その下に字幕 */
   .pk{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:22px;padding:0 0 4vh}
-  .pk img{position:relative;inset:auto;width:100%;height:auto;object-fit:initial;transform:scale(1.3)}
+  .pk img{position:relative;inset:auto;width:var(--pk-sp,100%);height:auto;object-fit:initial;transform:scale(1.3)}
   .pk.go img{animation:pkFit 4.6s cubic-bezier(.16,.7,.2,1) forwards}
   @keyframes pkFit{0%{opacity:0;filter:blur(10px);transform:scale(1.3)}25%{opacity:1;filter:blur(0)}100%{opacity:1;filter:blur(0);transform:scale(1)}}
   #pk .pk-cap{position:relative;left:auto;bottom:auto;width:100%;max-width:100%;box-sizing:border-box;transform:translateY(10px);background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0 20px}
@@ -600,6 +600,8 @@ function centerOffset(){
   var h=document.getElementById('hi'),sp=h.querySelectorAll('span[aria-hidden]'),a=(CONTENT.hello&&CONTENT.hello.ja)||[];
   if(a.length){sp[0].textContent=a[0];sp[1].textContent=a[1]||'';h.setAttribute('aria-label',a.join(''))}
   var it=CONTENT.intro||{},cap=document.querySelector('#pk .pk-cap');
+  var pkEl=document.getElementById('pk');
+  if(pkEl){pkEl.style.setProperty('--pk-pc',Math.min(100,Math.max(30,Number(it.sizePc)||60))+'%');pkEl.style.setProperty('--pk-sp',Math.min(100,Math.max(40,Number(it.sizeSp)||100))+'%')}
   if(cap&&it.caption){cap.innerHTML='<b>'+esc(it.caption.ja||'')+'</b>'+(it.sub&&it.sub.ja?'<span>'+esc(it.sub.ja)+'</span>':'')+(it.sub&&it.sub.en?'<span>'+esc(it.sub.en)+'</span>':'')}
 })();
 /* 0. パークの絵を見せてから、あいさつへ */
