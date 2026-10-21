@@ -863,9 +863,6 @@ function workList(){
     var b=el('button',null,'<b>'+esc(W(w,'title'))+'</b><span class="small">'+esc(W(w,'kind'))+'</span>');
     b.type='button';b.dataset.q='w:'+w.id;b.dataset.label=aboutWork(w);l.appendChild(bindQ(b));
   });
-  var ev=el('button','ev',evHTML());
-  ev.type='button';ev.addEventListener('click',function(e){e.preventDefault();openParade()});
-  l.appendChild(ev);
   return l;
 }
 /* 作品の説明:見た目→タイピングで概要→横スワイプでくわしく */
@@ -2183,7 +2180,7 @@ function makeWheel(items,prefix){
   wheel.appendChild(stage);wheel.appendChild(prev);wheel.appendChild(next);
   var desc=el('div','wh-desc');desc.setAttribute('aria-live','polite');
   wrapEl.appendChild(wheel);wrapEl.appendChild(desc);
-  var list=items||WORKS.concat([PHANTOM]),n=list.length,pos=0,target=0,raf=0,shown=-1;
+  var list=items||WORKS,n=list.length,pos=0,target=0,raf=0,shown=-1;
   var STEP=34*Math.PI/180;
   var cards=list.map(function(w,i){
     var c=document.createElement('button');c.type='button';c.className='wh-card';
