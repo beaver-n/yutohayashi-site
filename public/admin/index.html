@@ -277,7 +277,7 @@ function sortable(arr,render,opt){
 }
 
 /* ---------- タブ ---------- */
-var TABS=[['works','作品'],['future','これから'],['game','ゲーム'],['dock','ボタン'],['intro','オープニング'],['quick','短縮版'],['answers','質問の答え'],['profile','プロフィール']];
+var TABS=[['works','作品'],['future','これから'],['game','B-Play'],['dock','ボタン'],['intro','オープニング'],['quick','短縮版'],['answers','質問の答え'],['profile','プロフィール']];
 function drawTabs(){
   var nav=document.getElementById('tabs');nav.innerHTML='';
   TABS.forEach(function(t){nav.appendChild(h('button',{type:'button',role:'tab','aria-selected':String(tab===t[0]),text:t[1],onclick:function(){tab=t[0];drawTabs();rerender();window.scrollTo(0,0)}}))});
@@ -446,8 +446,8 @@ var ENGINES=[{id:'parade',name:'迷子のおしらせパレード'}];
 function panelGame(p){
   var G=data.game=data.game||clone(DEF.game||{teams:{a:{},b:{}},games:[]});
   G.teams=G.teams||{};G.teams.a=G.teams.a||{};G.teams.b=G.teams.b||{};G.games=G.games||[];
-  p.appendChild(h('h2',{text:'ゲーム'}));
-  p.appendChild(h('p',{class:'lead',text:'入力欄に「play」と打つか、下の「ゲーム」ボタンで開くゲームです。見る人は最初に2つのチームのどちらかをえらび、ゲームの点数がそのチームに入ります。'}));
+  p.appendChild(h('h2',{text:'B-Play'}));
+  p.appendChild(h('p',{class:'lead',text:'入力欄に「play」と打つか、下の「B-Play」ボタンで開くゲームです。見る人は最初に2つのチームのどちらかをえらび、ゲームの点数がそのチームに入ります。'}));
 
   /* 点数 */
   var sc=h('div',{class:'card'},[h('h3',{text:'今の点数'})]),scBox=h('div',{class:'scores',text:'読みこみ中…'});
@@ -518,7 +518,7 @@ function panelGame(p){
 }
 
 /* ---------- ボタン ---------- */
-var DOCK_NAMES={works:'作品を見せて',about:'どんな人？',skills:'何ができる？',future:'これから何をつくる？',contact:'お問い合わせ',game:'ゲーム'};
+var DOCK_NAMES={works:'作品を見せて',about:'どんな人？',skills:'何ができる？',future:'これから何をつくる？',contact:'お問い合わせ',game:'B-Play'};
 function panelDock(p){
   p.appendChild(h('h2',{text:'下のボタン'}));
   p.appendChild(h('p',{class:'lead',text:'入力欄の上に並ぶボタンです。順番、出す・出さない、ボタンの文字を変えられます。「作品を見せて」は、最初は作品がもう見えているので、会話が始まってから出ます。'}));
