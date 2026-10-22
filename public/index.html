@@ -396,6 +396,8 @@ figure.photo.wide img{object-fit:contain}
 .gh-card{border:1.5px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
 .gh-ban{aspect-ratio:2.3/1;display:grid;place-items:center;padding:14px 22px;background-color:var(--gb,var(--bp));background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 14px,transparent 14px 28px)}
 .gh-ban img{max-width:88%;max-height:100%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.gh-ban.img{padding:0;background-image:none}
+.gh-ban.img img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;display:block;filter:none}
 .gh-ban span{color:#fff;font-weight:800;font-size:clamp(1.3rem,6vw,1.9rem);text-align:center;line-height:1.25;text-shadow:0 3px 0 rgba(0,0,0,.18);text-wrap:balance}
 .gh-info{padding:14px 18px 16px;display:grid;gap:6px}
 .gh-tag{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:#3a3f48}
@@ -2124,7 +2126,7 @@ function ghDraw(){
     gs.forEach(function(g){
       var c=el('div','gh-card'+(g.type==='limited'?' ltd':''));
       var ban=el('div','gh-ban');if(g.bg)ban.style.setProperty("--gb",g.bg);
-      if(g.logo){var im=new Image();im.src=g.logo;im.alt=TL(g.title);im.loading='lazy';ban.appendChild(im)}
+      if(g.logo){ban.classList.add('img');var im=new Image();im.src=g.logo;im.alt=TL(g.title);im.loading='lazy';ban.appendChild(im)}
       else ban.appendChild(el('span',null,esc(TL(g.title))));
       c.appendChild(ban);
       var inf=el('div','gh-info');

@@ -509,7 +509,7 @@ function panelGame(p){
     sel.addEventListener('change',function(){g.type=sel.value;markDirty();rerender()});
     det.appendChild(h('label',{class:'field'},[h('span',{text:'種類'}),sel]));
     if(g.type==='limited')det.appendChild(h('div',{class:'two'},[input('始まる日',g.start,function(v){g.start=v},{type:'date'}),input('終わる日',g.end,function(v){g.end=v},{type:'date'})]));
-    det.appendChild(imageField('ゲームのロゴ',g.logo,function(v){g.logo=v},{hint:'カードの上の部分に出ます。なしのときは、ゲームの名前が文字で出ます。背景がすけているPNGがおすすめです。'}));
+    det.appendChild(imageField('ゲームのロゴ',g.logo,function(v){g.logo=v},{hint:'カードの上の部分いっぱいに出ます(横23:縦10、1150×500ピクセルがぴったり)。比率がちがうと、はしが少し切れます。なしのときは、ゲームの名前が文字で出ます。'}));
     var bgc=h('input',{type:'color',value:g.bg||'#0399b8'});bgc.addEventListener('input',function(){g.bg=bgc.value;markDirty()});
     det.appendChild(h('label',{class:'field'},[h('span',{text:'ロゴのうしろの色'}),bgc]));
     det.appendChild(h('div',{class:'two'},[input('名前(日本語)',g.title.ja,function(v){g.title.ja=v}),input('名前(英語)',g.title.en,function(v){g.title.en=v})]));
